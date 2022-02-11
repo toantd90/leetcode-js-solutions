@@ -8,8 +8,6 @@ const search = (nums, target) => {
     let r = nums.length - 1
     
     while (l <= r) {
-        if (nums[l] === target) return l
-        if (nums[r] === target) return r
         const mid = Math.floor((l + r) / 2)
         
         if (nums[mid] === target) {
