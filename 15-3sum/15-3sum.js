@@ -1,30 +1,25 @@
-/**
- * @param {number[]} nums
- * @return {number[][]}
- */
-const threeSum = nums => {
-    nums.sort((n1, n2) => n1 - n2)
-    const len = nums.length
-    let res = new Set()
-    for (let i = 0; i < len; i++) {
-        const sum = -nums[i]
-        let l = i + 1
-        let r = len - 1
-        
-        if (l > r - 1) continue
-        else {
-            while (l <= r - 1) {
-                const curSum = nums[l] + nums[r]
-                if (curSum === sum) {
-                    res.add(`${nums[i]}*${nums[l]}*${nums[r]}`)
-                    r--
-                } else if (curSum > sum) {
-                    r--
-                } else {
-                    l++
-                }
-            }
-        }
+var threeSum = function (nums) {
+  nums.sort((a, b) => a - b);
+  const res = [];
+
+  for (let i = 0; i < nums.length - 2; i++) {
+    if (nums[i] > 0) break;
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
+    let left = i + 1;
+    let right = nums.length - 1;
+    while (left < right) {
+      const sum = nums[i] + nums[left] + nums[right];
+      if (sum < 0) ++left;
+      else if (sum > 0) --right;
+      else {
+        res.push([nums[i], nums[left], nums[right]]);
+        while (left < right && nums[left] === nums[left + 1]) ++left;
+        while (left < right && nums[right] === nums[right - 1]) --right;
+        left++;
+        right--;
+      }
     }
-    return Array.from(res).map(el => el.split('*'))
+  }
+    
+  return res;
 };
