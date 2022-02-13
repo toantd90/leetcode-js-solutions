@@ -26,6 +26,5 @@ const threeSum = nums => {
             }
         }
     }
-    console.log(res)
     return Array.from(res).map(el => el.split('*'))
 };
