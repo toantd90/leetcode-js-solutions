@@ -5,8 +5,9 @@
  */
 const threeSumClosest = (nums, target) => {
     const n = nums.length
+    let sumClosest = nums[0] + nums[1] + nums[2]
+    if (n === 3) return sumClosest
     nums.sort((n1, n2) => n1 - n2)
-    let sumClosest
     
     for (let i = 0; i < n - 2; i++) {
         let l = i + 1
@@ -14,14 +15,10 @@ const threeSumClosest = (nums, target) => {
         
         while (l < r) {
             const curSum = nums[i] + nums[l] + nums[r]
-            if (sumClosest === undefined) {
+            if (curSum === target) return target
+            console.log(curSum)
+            if (Math.abs(target - curSum) < Math.abs(target - sumClosest))
                 sumClosest = curSum
-                continue
-            }
-            const curDif = Math.abs(target - sumClosest)
-            const newDif = Math.abs(target - curSum)
-            
-            sumClosest = newDif < curDif ? curSum : sumClosest
             
             if (curSum <= target) {
                 l++
@@ -30,5 +27,6 @@ const threeSumClosest = (nums, target) => {
             }
         }
     }
+
     return sumClosest
 };
