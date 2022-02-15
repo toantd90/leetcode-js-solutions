@@ -16,7 +16,7 @@ const threeSumClosest = (nums, target) => {
         while (l < r) {
             const curSum = nums[i] + nums[l] + nums[r]
             if (curSum === target) return target
-            console.log(curSum)
+            
             if (Math.abs(target - curSum) < Math.abs(target - sumClosest))
                 sumClosest = curSum
             
