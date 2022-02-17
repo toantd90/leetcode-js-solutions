@@ -7,30 +7,25 @@
  *    this.next = next === undefined ? null : next;
  * };
  */
+const findNextNode = node => {
+    if (!node) return null
+    if (node.left) return node.left
+    if (node.right) return node.right
+    return findNextNode(node.next)
+}
 
 /**
  * @param {Node} root
  * @return {Node}
  */
-const connect = (root) => {
-  if (!root) return root
+const connect = (node) => {
+  if (!node) return node
 
-  let queue = [root]
+  if (node.right) node.right.next = findNextNode(node.next)
+  if (node.left) node.left.next = node.right || findNextNode(node.next)
   
-  while (queue.length) {
-      const size = queue.length
-      let nextLevelNodes = []
-      
-      for (let i = 0; i < size; i++) {
-          const node = queue.shift()
-          node.next = queue[0] || null
-          
-          if (node.left) nextLevelNodes.push(node.left)
-          if (node.right) nextLevelNodes.push(node.right)
-      }
-      
-      queue = nextLevelNodes
-  }
+  connect(node.right)
+  connect(node.left)
 
-  return root;
+  return node;
 };
