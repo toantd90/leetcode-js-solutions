@@ -3,21 +3,23 @@
  * @return {number[][]}
  */
 const allPathsSourceTarget = graph => {
-  let result = []
-  
-  const dfs = (node, paths) => {
-    if (node === graph.length - 1) {
-      result.push(paths.slice(0))
-      return
+    const n = graph.length
+    let res = []
+    
+    const dfs = (node, path) => {
+        if (node === n - 1) {
+            res.push(path.slice())
+            return
+        }
+        
+        for (let nextNode of graph[node]) {
+            path.push(nextNode)
+            dfs(nextNode, path)
+            path.pop()
+        }
     }
-    for (const nextNode of graph[node]) {
-      paths.push(nextNode)
-      dfs(nextNode, paths)
-      paths.pop()
-    }
-  }
-  
-  dfs(0, [0])
-  
-  return result
+    
+    dfs(0, [0])
+    
+    return res
 };
