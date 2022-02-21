@@ -3,18 +3,16 @@
  * @return {number}
  */
 const majorityElement = nums => {
-    const n = nums.length
-    let map = {}
-    
-    for (let num of nums) {
-        map[num] = (map[num] || 0) + 1
-    }
-    
-    let keys = Object.keys(map)
-    
-    for (let i = 0; i < keys.length; i++) {
-        if (map[keys[i]] > n / 2) {
-            return keys[i]
+    let major = nums[0];
+    let count = 1;
+    for (let i = 1; i < nums.length; i++) {
+        if (count === 0) {
+            major = nums[i];
+            count++;
         }
+        else if (major === nums[i]) count++;
+        else count--;
     }
+    
+    return major;
 };
