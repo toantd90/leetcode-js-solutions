@@ -3,7 +3,8 @@
  * @return {number[][]}
  */
 const swap = (nums, i, j) => {
-    [nums[i], nums[j]] = [nums[j], nums[i]]
+    if (i !== j)
+        [nums[i], nums[j]] = [nums[j], nums[i]]
 }
 const permutation = (nums, l, r, res) => {
     if (l === r) {
