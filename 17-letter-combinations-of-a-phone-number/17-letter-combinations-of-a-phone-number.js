@@ -10,20 +10,7 @@ const map = {
 }
 
 
-const backtrack = (res, list, digits) => {
-    if (list.length === digits.length) {
-        res.push(list.join(''))
-    } else {
-        const index = list.length
-        const digit = digits[index]
-        const chars = map[digit]
-        for (let i = 0; i < chars.length; i++) {
-            list.push(chars[i])
-            backtrack(res, list, digits)
-            list.pop()
-        }
-    }
-}
+
 
 /**
  * @param {string} digits
@@ -31,8 +18,25 @@ const backtrack = (res, list, digits) => {
  */
 const letterCombinations = digits => {
     if (digits.length === 0) return []
+    
     let res = []
-    backtrack(res, [], digits)
+    
+    const backtrack = (list = []) => {
+        if (list.length === digits.length) {
+            res.push(list.join(''))
+        } else {
+            const index = list.length
+            const digit = digits[index]
+            const chars = map[digit]
+            for (let i = 0; i < chars.length; i++) {
+                list.push(chars[i])
+                backtrack(list)
+                list.pop()
+            }
+        }
+    }
+    
+    backtrack()
     
     return res
 };
