@@ -5,7 +5,7 @@
  * @param {number} destination
  * @return {boolean}
  */
-const validPath = (n, edges, source, destination) => {
+var validPath = function(n, edges, source, destination) {
     if (source === destination) return true
     let graph = new Array(n).fill().map(_ => [])
     let visited = new Array(n).fill(false)
