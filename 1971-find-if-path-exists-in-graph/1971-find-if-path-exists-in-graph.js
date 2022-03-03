@@ -11,7 +11,6 @@ var validPath = function(n, edges, source, destination) {
     let visited = new Array(n).fill(false)
 
     for (let [u, v] of edges) {
-        if ((u === source && v === destination) || (u === destination && v === source)) return true
         graph[u].push(v)
         graph[v].push(u)
     }
