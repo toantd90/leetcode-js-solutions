@@ -3,8 +3,13 @@
  * @return {boolean}
  */
 const isSameAfterReversals = num => {
-    const reversed1 = Number(num.toString().split('').reverse().join(''))
-    const reversed2 = Number(reversed1.toString().split('').reverse().join(''))
+    if (!num) return true
+
+    let numWithoutEndZero = num
     
-    return reversed2 === num
+    while (numWithoutEndZero % 10 === 0) {
+        numWithoutEndZero = numWithoutEndZero / 10
+    }
+    
+    return numWithoutEndZero === num
 };
