@@ -4,7 +4,7 @@ const dijkstra = (s, graph, dist) => {
     
     while (!maxHeap.isEmpty()) {
         const [u, w] = maxHeap.dequeue().element
-        // if (dist[u] > w) continue
+        if (dist[u] > w) continue
         
         for (let [v, newW] of graph[u]) {
             if (w * newW > dist[v]) {
