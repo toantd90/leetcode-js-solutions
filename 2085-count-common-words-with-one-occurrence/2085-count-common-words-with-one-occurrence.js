@@ -10,8 +10,6 @@ const countWords = (words1, words2) => {
         mapWord[word] = (mapWord[word] || 0) + 1
     }
     
-    console.log(mapWord)
-    
     for (let word of words2) {
         if (mapWord[word] === 0) {
             mapWord[word]--
