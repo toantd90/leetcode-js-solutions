@@ -4,18 +4,22 @@
  * @return {number}
  */
 const countWords = (words1, words2) => {
-    let mapWord1 = {}, mapWord2 = {}
+    let mapWord = {}
+    let res = 0
     for (let word of words1) {
-        mapWord1[word] = (mapWord1[word] || 0) + 1
+        mapWord[word] = (mapWord[word] || 0) + 1
     }
+    
+    console.log(mapWord)
     
     for (let word of words2) {
-        mapWord2[word] = (mapWord2[word] || 0) + 1
-    }
-    
-    let res = 0
-    for (let word in mapWord1) {
-        if (mapWord1[word] === mapWord2[word] && mapWord1[word] === 1) {
+        if (mapWord[word] === 0) {
+            mapWord[word]--
+            res--
+        }
+
+        if (mapWord[word] === 1) {
+            mapWord[word]--
             res++
         }
     }
