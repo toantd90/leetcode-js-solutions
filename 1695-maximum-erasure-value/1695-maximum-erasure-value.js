@@ -11,7 +11,7 @@ const maximumUniqueSubarray = nums => {
 
   while (r < nums.length) {
     if (count[nums[r]] === 1) {
-      while (count[nums[r]] === 1 && l < r) {
+      while (count[nums[r]] === 1) {
         cur -= nums[l];
         count[nums[l]]--;
         l++;
