@@ -10,17 +10,17 @@ const arrayNesting = nums => {
         
         if (visited[num]) continue
         
-        let path = new Set()
+        let cnt = 0
         let cur = num
         
-        while (!path.has(cur)) {
-            path.add(cur)
-            cur = nums[cur]
+        while (!visited[cur]) {
             visited[cur] = true
+            cur = nums[cur]
+            cnt++
         }
         
-        if (path.size > longestPath) {
-            longestPath = path.size
+        if (cnt > longestPath) {
+            longestPath = cnt
         }
     }
 
