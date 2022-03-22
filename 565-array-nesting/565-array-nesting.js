@@ -16,12 +16,9 @@ const arrayNesting = nums => {
         while (!path.has(cur)) {
             path.add(cur)
             cur = nums[cur]
+            visited[cur] = true
         }
         
-        
-        Array.from(path.values()).forEach(node => {
-            visited[node] = path.size
-        })
         if (path.size > longestPath) {
             longestPath = path.size
         }
