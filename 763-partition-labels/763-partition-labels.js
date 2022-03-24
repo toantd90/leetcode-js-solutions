@@ -25,7 +25,6 @@ const partitionLabels = s => {
             res.push(curMax - curMin + 1)
             curMin = chars[i][0]
             curMax = chars[i][1]
-            continue
         } else {
             curMax = Math.max(curMax, chars[i][1])
         }
