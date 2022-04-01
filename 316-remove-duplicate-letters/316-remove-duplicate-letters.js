@@ -3,24 +3,17 @@
  * @return {string}
  */
 const removeDuplicateLetters = (s) => {
-  let stack = [s[0]];
-  let picked = { [s[0]]: true };
-  let lastIndex = { [s[0]]: 0 };
+    let stack = [];
 
-  for (let i = 1; i < s.length; i++) {
-    lastIndex[s[i]] = i;
-  }
-
-  for (let i = 1; i < s.length; i++) {
-    if (picked[s[i]]) continue;
-    let top = stack[stack.length - 1];
-    while (s[i] < top && lastIndex[top] > i && stack.length) {
-      picked[stack.pop()] = false;
-      top = stack[stack.length - 1];
+    
+    for(let i = 0; i < s.length; i++) {
+        if(stack.indexOf(s[i]) > -1) continue;
+     
+        while(stack.length > 0 && stack[stack.length-1] > s[i] && s.indexOf(stack[stack.length-1], i) > i) {
+            stack.pop();
+        }
+        stack.push(s[i]);
+    
     }
-    stack.push(s[i]);
-    picked[s[i]] = true;
-  }
-
-  return stack.join('');
+    return stack.join('')
 };
