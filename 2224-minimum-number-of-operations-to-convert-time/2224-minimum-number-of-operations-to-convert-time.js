@@ -24,5 +24,5 @@ const convertTime = (current, correct) => {
         }
     }
     
-    return convert += Math.abs(diff) + (correctMinute < currentMinute ? -1 : 0)
+    return convert += diff + (correctMinute < currentMinute ? -1 : 0)
 };
