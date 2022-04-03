@@ -11,7 +11,6 @@ const toMin = time => {
  */
 const convertTime = (current, correct) => {
     const diff = toMin(correct) - toMin(current)
-    console.log(diff)
     
     return Math.floor(diff / 60) + Math.floor(diff % 60 / 15) + Math.floor(diff % 15 / 5) + diff % 5
 };
