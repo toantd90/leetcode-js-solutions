@@ -23,7 +23,6 @@ const swapNodes = (head, k) => {
         right = right.next
         temp = temp.next
     }
-    
    
     const tempVal = left.val
     left.val = right.val
