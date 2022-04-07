@@ -18,5 +18,5 @@ const lastStoneWeight = stones => {
         }
     }
     
-    return maxHeap.size() === 0 ? 0 : maxHeap.dequeue().element
+    return maxHeap.size() === 1 ? maxHeap.dequeue().element : 0
 };
