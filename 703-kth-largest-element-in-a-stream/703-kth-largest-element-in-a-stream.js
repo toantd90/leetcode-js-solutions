@@ -6,11 +6,13 @@ var KthLargest = function(k, nums) {
     this.k = k
     
     let minHeap = new MinPriorityQueue()
-    let maxHeap = new MaxPriorityQueue()
-    for (let num of nums) maxHeap.enqueue(num)
     
-    while (minHeap.size() < k && maxHeap.size() > 0) {
-        minHeap.enqueue(maxHeap.dequeue().element)
+    for (let num of nums) {
+        minHeap.enqueue(num)
+    }
+    
+    while (minHeap.size() > k) {
+        minHeap.dequeue()
     }
     
     this.minHeap = minHeap
