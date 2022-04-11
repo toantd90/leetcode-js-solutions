@@ -4,6 +4,8 @@
  * @return {number[]}
  */
 const intersect = (nums1, nums2) => {
+    if (nums1.length > nums2.length) return intersect(nums2, nums1)
+
     let map1 = {}
     
     for (let num of nums1) {
