@@ -1,11 +1,9 @@
 const inorderTraverse = (node, kSmallestElements, k) => {
-    if (!node) return node
+    if (!node || kSmallestElements.length === k) return
     
-    if (node.left) inorderTraverse(node.left, kSmallestElements, k)
+    inorderTraverse(node.left, kSmallestElements, k)
     kSmallestElements.push(node.val)
-    if (node.right) inorderTraverse(node.right, kSmallestElements, k)
-    
-    return kSmallestElements
+    inorderTraverse(node.right, kSmallestElements, k)
 }
 
 /**
@@ -22,9 +20,9 @@ const inorderTraverse = (node, kSmallestElements, k) => {
  * @return {number}
  */
 const kthSmallest = (root, k) => {
-    let nodes = []
+    let kSmallestElements = []
     
-    inorderTraverse(root, nodes, k)
+    inorderTraverse(root, kSmallestElements, k)
     
-    return nodes[k - 1]
+    return kSmallestElements[k - 1]
 };
