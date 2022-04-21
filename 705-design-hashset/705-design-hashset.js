@@ -1,6 +1,6 @@
 
 var MyHashSet = function() {
-    this.set = {}
+    this.set = new Set()
 };
 
 /** 
@@ -8,7 +8,7 @@ var MyHashSet = function() {
  * @return {void}
  */
 MyHashSet.prototype.add = function(key) {
-   this.set[key] = true
+   this.set.add(key)
 };
 
 /** 
@@ -16,7 +16,7 @@ MyHashSet.prototype.add = function(key) {
  * @return {void}
  */
 MyHashSet.prototype.remove = function(key) {
-    this.set[key] = false
+    this.set.delete(key)
 };
 
 /** 
@@ -24,7 +24,7 @@ MyHashSet.prototype.remove = function(key) {
  * @return {boolean}
  */
 MyHashSet.prototype.contains = function(key) {
-    return !!(this.set[key])
+    return this.set.has(key)
 };
 
 /** 
