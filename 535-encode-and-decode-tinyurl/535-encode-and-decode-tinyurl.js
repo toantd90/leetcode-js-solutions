@@ -4,7 +4,7 @@ const BASE_URL = 'http://tinyurl.com/'
 
 
 const getCode = () => {
-    return new Array(6).fill().map(_ => chars.charAt(Math.floor(Math.random() * 62))).join('')
+    return new Array(6).fill().map(_ => chars.charAt(~~(Math.random() * 62))).join('')
 }
 
 
