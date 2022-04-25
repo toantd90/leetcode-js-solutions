@@ -24,16 +24,12 @@ DetectSquares.prototype.count = function([x, y]) {
     let cnt = 0
     
     for (let x3 in this.points) {
-        console.log(x3)
         const diffX = Math.abs(x-x3)
         if (this.points[x] && diffX !== 0) {
-            // up
             let y3 = y + diffX
-            
             cnt += (this.points[x3][y3] || 0) * (this.points[x][y3] || 0) * (this.points[x3][y] || 0)
             
             y3 = y - diffX
-            
             cnt += (this.points[x3][y3] || 0) * (this.points[x][y3] || 0) * (this.points[x3][y] || 0)
         } 
     }
