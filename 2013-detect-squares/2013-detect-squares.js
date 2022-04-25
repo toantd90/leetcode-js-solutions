@@ -1,7 +1,6 @@
 
 var DetectSquares = function() {
-    this.points = []
-    this.cntPoints = new Array(1001).fill().map(_ => new Array(1001).fill(0))
+    this.points = {}
 };
 
 /** 
@@ -9,9 +8,13 @@ var DetectSquares = function() {
  * @return {void}
  */
 DetectSquares.prototype.add = function([x, y]) {
-    this.points.push([x, y])
-    this.cntPoints[x][y]++
-};
+    if (!this.points[x]) {
+        this.points[x] = {[y] : 1}   
+    } else {
+        this.points[x][y] = (this.points[x][y] || 0) + 1    
+    }
+}
+    
 
 /** 
  * @param {number[]} point
@@ -19,11 +22,20 @@ DetectSquares.prototype.add = function([x, y]) {
  */
 DetectSquares.prototype.count = function([x, y]) {
     let cnt = 0
-    for (let [x3, y3] of this.points) {
-        
-        if (Math.abs(x-x3) !== 0 && Math.abs(x - x3) === Math.abs(y - y3) && this.cntPoints[x][y3] && this.cntPoints[x3][y]) {
-            cnt += this.cntPoints[x][y3] * this.cntPoints[x3][y]
-        }
+    
+    for (let x3 in this.points) {
+        console.log(x3)
+        const diffX = Math.abs(x-x3)
+        if (this.points[x] && diffX !== 0) {
+            // up
+            let y3 = y + diffX
+            
+            cnt += (this.points[x3][y3] || 0) * (this.points[x][y3] || 0) * (this.points[x3][y] || 0)
+            
+            y3 = y - diffX
+            
+            cnt += (this.points[x3][y3] || 0) * (this.points[x][y3] || 0) * (this.points[x3][y] || 0)
+        } 
     }
         
     return cnt
