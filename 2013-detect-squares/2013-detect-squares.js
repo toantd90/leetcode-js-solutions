@@ -14,6 +14,10 @@ DetectSquares.prototype.add = function([x, y]) {
         this.points[x][y] = (this.points[x][y] || 0) + 1    
     }
 }
+
+DetectSquares.prototype.squareCount = function(x, y, x1, y1) {
+    return (this.points[x1][y1] || 0) * (this.points[x][y1] || 0) * (this.points[x1][y] || 0)
+}
     
 
 /** 
@@ -23,14 +27,10 @@ DetectSquares.prototype.add = function([x, y]) {
 DetectSquares.prototype.count = function([x, y]) {
     let cnt = 0
     
-    for (let x3 in this.points) {
-        const diffX = Math.abs(x-x3)
+    for (let x1 in this.points) {
+        const diffX = Math.abs(x-x1)
         if (this.points[x] && diffX !== 0) {
-            let y3 = y + diffX
-            cnt += (this.points[x3][y3] || 0) * (this.points[x][y3] || 0) * (this.points[x3][y] || 0)
-            
-            y3 = y - diffX
-            cnt += (this.points[x3][y3] || 0) * (this.points[x][y3] || 0) * (this.points[x3][y] || 0)
+            cnt += this.squareCount(x, y, x1, y + diffX) + this.squareCount(x, y, x1, y - diffX)
         } 
     }
         
