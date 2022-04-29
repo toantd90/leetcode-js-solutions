@@ -1,8 +1,3 @@
-/**
- * @param {number[][]} heights
- * @return {number}
- */
-
 class Heap {
   constructor(comparator) {
     this.heap = [];
@@ -100,84 +95,81 @@ class Heap {
 }
 
 class Node {
-  constructor(node, cost) {
-    this.node = node;
-    this.cost = cost;
-  }
-}
-
-class Vertex {
-  constructor(node, weight) {
-    this.node = node;
-    this.weight = weight;
-  }
+    constructor(vertex, difference) {
+        this.vertex = vertex
+        this.difference = difference
+    }
 }
 
 class WeightedGraph {
-  constructor() {
-    this.adjacencyList = {};
-  }
-
-  addVertex(v) {
-    if (!this.adjacencyList[v]) this.adjacencyList[v] = [];
-  }
-
-  addEdge(v1, v2, w) {
-    if (!this.adjacencyList[v1]) this.adjacencyList[v1] = [];
-    if (!this.adjacencyList[v2]) this.adjacencyList[v2] = [];
-    this.adjacencyList[v1].push(new Vertex(v2, w));
-    this.adjacencyList[v2].push(new Vertex(v1, w));
-  }
-
-  dijkstra(s, t) {
-    const minHeap = new Heap((v1, v2) => {
-      return v1.cost < v2.cost;
-    });
-    const distance = {};
-
-    for (let v in this.adjacencyList) {
-      distance[v] = Infinity;
+    constructor() {
+        this.adjacencyList = {}
     }
-    distance[s] = 0;
-    minHeap.insert(new Node(s, 0));
-
-    while (minHeap.size() > 0) {
-      const smallest = minHeap.extract();
-      const u = smallest.node;
-      const w = smallest.cost;
-      if (distance[u] !== w) continue;
-      if (u === t) break;
-
-      for (let neighbor of this.adjacencyList[u] || []) {
-        const v = neighbor.node;
-        const newW = Math.max(w, neighbor.weight);
-        if (newW < distance[v]) {
-          distance[v] = newW;
-          minHeap.insert(new Node(v, newW));
+    
+    addVertex(vertex) {
+        if (!this.adjacencyList[vertex]) this.adjacencyList[vertex] = []
+    }
+    
+    addEdge(from, to, difference) {
+        if (!this.adjacencyList[from]) this.adjacencyList[from] = [];
+        if (!this.adjacencyList[to]) this.adjacencyList[to] = []
+        this.adjacencyList[from].push(new Node(to, difference))
+        this.adjacencyList[to].push(new Node(from, difference))
+    }
+    
+    dijkstra(start, end) {
+        let priorityQueue = new Heap((node1, node2) => node1.difference < node2.difference)
+        let differenceList = {}
+        for (let v in this.adjacencyList) {
+            differenceList[v] = Infinity;
         }
-      }
+        differenceList[start] = 0
+        priorityQueue.insert(new Node(start, 0))
+        
+        while (!priorityQueue.isEmpty()) {
+            const curNode = priorityQueue.extract()
+            if (differenceList[curNode.vertex] !== curNode.difference) continue;
+            if (curNode.vertex === end) break;
+            for (const {vertex, difference} of this.adjacencyList[curNode.vertex]) {
+                const cost = Math.max(difference, curNode.difference)
+                if (differenceList[vertex] > cost) {
+                    differenceList[vertex] = cost
+                    
+                    priorityQueue.insert(new Node(vertex, cost))
+                }
+            }
+        }
+        
+        return differenceList[end]
     }
-
-    return distance;
-  }
 }
-const minimumEffortPath = function(heights) {
-  const m = heights.length
-  const n = heights[0].length
-  let graph = new WeightedGraph()
-  
-  for (let i = 0; i < m; i++) {
-    for (let j = 0; j < n; j++) {
-      const node = i * n + j % n
-      const right = node + 1
-      const below = node + n
-      if (j + 1 < n)
-        graph.addEdge(node, right, Math.abs(heights[i][j] - heights[i][j + 1]))
-      if (i + 1 < m)
-        graph.addEdge(node, below, Math.abs(heights[i][j] - heights[i + 1][j]))
+
+
+/**
+ * @param {number[][]} heights
+ * @return {number}
+ */
+const minimumEffortPath = heights => {
+    const rows = heights.length
+    const cols = heights[0].length
+    
+    let graph = new WeightedGraph()
+    
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            const cur = row * cols + col % cols
+            const right = cur + 1
+            const bottom = cur + cols
+            
+            if (col + 1 < cols) {
+                graph.addEdge(cur, right, Math.abs(heights[row][col] - heights[row][col + 1]))
+            }
+            
+            if (row + 1 < rows) {
+                graph.addEdge(cur, bottom, Math.abs(heights[row][col] - heights[row + 1][col]))
+            }
+        }
     }
-  }
-  
-  const distance = graph.dijkstra(0, m * n - 1);
-  return distance[m * n - 1]
+    
+    return graph.dijkstra(0, rows * cols - 1)
 };
