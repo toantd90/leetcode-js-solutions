@@ -4,33 +4,30 @@
  */
 const isBipartite = graph => {
     const n = graph.length
-    let color = new Array(n).fill(0)
+    let colors = new Array(n).fill(0)
     
     for (let i = 0; i < n; i++) {
-        if (color[i]) continue
+        if (colors[i]) continue
         
-        let queue = [i]
+        if (!canDoColoring(i, 1, graph, colors)) return false
+    }
     
-        color[i] = 1
+    return true
+};
 
-        while (queue.length) {
-            const cur = queue.shift()
-            const neighbors = graph[cur]
-
-            for (let i = 0; i < neighbors.length || 0; i++) {
-                const neighbor = neighbors[i]
-                if (color[neighbor] === 0) {
-                    color[neighbor] = -color[cur]
-                    queue.push(neighbor)
-                } else {
-                    if (color[cur] === color[neighbor]) return false
-                }
-            }
+const canDoColoring = (node, color, graph, colors) => {
+    if (colors[node]) {
+        return color === colors[node]
+    }
+    
+    colors[node] = color
+    
+    for (let i = 0; i < graph[node].length; i++) {
+        const neighbor = graph[node][i]
+        if (!canDoColoring(neighbor, -color, graph, colors)) {
+            return false
         }
     }
     
-    
-    
     return true
-    
-};
+}
