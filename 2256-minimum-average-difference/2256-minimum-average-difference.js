@@ -12,7 +12,8 @@ const minimumAverageDifference = nums => {
     for (let i = 0; i < nums.length; i++) {
         soFar += nums[i]
         totalSum -= nums[i]
-        const curDiff = Math.abs(Math.floor(soFar / (i + 1)) - Math.floor(totalSum / (i < nums.length - 1 ? nums.length - i - 1 : 1)))
+        const curDiff = Math.abs(Math.floor(soFar / (i + 1)) - (i < nums.length - 1 ? Math.floor(totalSum / (nums.length - i - 1)) : 0))
+
         if (curDiff < diff) {
             diff = curDiff
             index = i
