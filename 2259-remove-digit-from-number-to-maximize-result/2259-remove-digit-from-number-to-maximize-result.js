@@ -4,16 +4,12 @@
  * @return {string}
  */
 const removeDigit = (number, digit) => {
-    let max = -Infinity
+    let max = new String('0').repeat(number.length)
     
     for (let i = 0; i < number.length; i++) {
         if (number[i] == digit) {
-            let curNum = number.substring(0, i) + number.substring(i + 1)
+            const curNum = number.substring(0, i) + number.substring(i + 1)
             
-            if (max === -Infinity) {
-                max = curNum
-                continue
-            }
             if (curNum > max)
                 max = curNum
         }
