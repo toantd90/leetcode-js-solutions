@@ -14,7 +14,7 @@ const removeDigit = (number, digit) => {
                 max = curNum
                 continue
             }
-            if (BigInt(curNum) > BigInt(max))
+            if (curNum > max)
                 max = curNum
         }
         
