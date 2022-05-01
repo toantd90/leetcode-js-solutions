@@ -20,5 +20,5 @@ const removeDigit = (number, digit) => {
         
     }
     
-    return max.toString()
+    return max
 };
