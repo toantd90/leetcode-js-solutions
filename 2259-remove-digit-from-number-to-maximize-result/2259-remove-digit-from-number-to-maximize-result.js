@@ -4,7 +4,7 @@
  * @return {string}
  */
 const removeDigit = (number, digit) => {
-    let max = new String('0').repeat(number.length)
+    let max = '0'
     
     for (let i = 0; i < number.length; i++) {
         if (number[i] == digit) {
