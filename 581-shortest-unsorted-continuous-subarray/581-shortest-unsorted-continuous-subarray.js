@@ -3,15 +3,26 @@
  * @return {number}
  */
 const findUnsortedSubarray = nums => {
-    const sorted = [...nums].sort((n1, n2) => n1 - n2)
-    let l, r
+    let r = -1
+    let max = nums[0]
     
-    for (let i = 0; i < nums.length; i++) {
-        if (nums[i] !== sorted[i]) {
-            if (l === undefined) l = i
+    for (let i = 1; i < nums.length; i++) {
+        if (nums[i] < max) {
             r = i
+        } else {
+            max = nums[i]
         }
     }
     
-    return l !== undefined ? r - l + 1 : 0
+    let l = 0
+    let min = nums[nums.length - 1]
+    for (let i = nums.length - 2; i >= 0; i--) {
+        if (nums[i] > min) {
+            l = i
+        } else {
+            min = nums[i]
+        }
+    }
+    
+    return r - l + 1
 };
