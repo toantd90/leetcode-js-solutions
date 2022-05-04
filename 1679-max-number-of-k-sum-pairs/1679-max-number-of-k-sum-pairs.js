@@ -4,17 +4,16 @@
  * @return {number}
  */
 const maxOperations = (nums, k) => {
-   let map = {}
+   let map = new Map()
    let cnt = 0
    
    for (let i = 0; i < nums.length; i++) {
-       const remain = k - nums[i]
-       if (map[remain]) {
-           map[remain]--
-           cnt++
-       } else {
-           map[nums[i]] = (map[nums[i]] || 0) + 1
-       }
+       if (map.has(k-nums[i]) && map.get(k-nums[i]) > 0) {
+            cnt++
+            map.set(k-nums[i], map.get(k-nums[i]) - 1)
+        } else {
+            map.set(nums[i], map.get(nums[i]) + 1 || 1)
+        }
    }
     
    return cnt
