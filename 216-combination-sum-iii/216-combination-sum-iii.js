@@ -6,21 +6,18 @@
 const combinationSum3 = (k, n) => {
     let result = []
     const backtrack = (list, sum, start) => {
-        if (sum > n) {
+        if (sum > n) return
+        if (sum === n && list.length === k) {
+            result.push(list)
             return
-        } else if (sum === n) {
-            if (list.length === k) {
-                result.push(list)
-            }
-            return
-        } else {
-            for (let i = start + 1; i <= 9; i++) {
-                backtrack([...list].concat(i), sum + i, i)
-            }
+        }
+
+        for (let i = start; i <= 9; i++) {
+            backtrack([...list, i], sum + i, i + 1)
         }
     }
     
-    backtrack([], 0, 0)
+    backtrack([], 0, 1)
     
     return result
 };
