@@ -14,7 +14,6 @@ const exist = (board, word) => {
     const dfs = (curIndex, row, col) => {
         if (curIndex > word.length) return false
         if (curIndex === word.length - 1) return true
-        const temp = board[row][col]
         board[row][col] = '#'
         
         let res = false
@@ -29,7 +28,7 @@ const exist = (board, word) => {
             }
         }
         
-        board[row][col] = temp
+        board[row][col] = word[curIndex]
         
         return res
     }
