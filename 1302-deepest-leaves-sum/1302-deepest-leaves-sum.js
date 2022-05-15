@@ -16,17 +16,15 @@ const deepestLeavesSum = root => {
     
     while (queue.length) {
         const size = queue.length
-        let curSum = 0
+        leavesSum = 0
         
         for (let i = 0; i < size; i++) {
             const node = queue.shift()
-            curSum += node.val
+            leavesSum += node.val
             
             if (node.left) queue.push(node.left)
             if (node.right) queue.push(node.right)
         }
-        
-        leavesSum = curSum
     }
     
     return leavesSum
