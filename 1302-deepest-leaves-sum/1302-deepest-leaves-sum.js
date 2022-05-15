@@ -10,22 +10,22 @@
  * @param {TreeNode} root
  * @return {number}
  */
-const deepestLeavesSum = root => {
-    let queue = [root]
-    let leavesSum = 0
-    
-    while (queue.length) {
-        const size = queue.length
-        leavesSum = 0
-        
-        for (let i = 0; i < size; i++) {
-            const node = queue.shift()
-            leavesSum += node.val
-            
-            if (node.left) queue.push(node.left)
-            if (node.right) queue.push(node.right)
-        }
-    }
-    
-    return leavesSum
+var deepestLeavesSum = function(root) {
+   let queue = [root]
+   let result = 0
+   
+   while(queue.length) {
+     const length = queue.length
+     result = 0
+     for (let i = 0; i < length; i++) {
+       const node = queue.shift()
+       result += node.val
+       if (node.left)
+         queue.push(node.left)
+       if (node.right)
+         queue.push(node.right)
+     }
+   }
+  
+   return result
 };
