@@ -7,16 +7,24 @@ const uniquePathsWithObstacles = obstacleGrid => {
     const n = obstacleGrid[0].length
     
     if (obstacleGrid[0][0] || obstacleGrid[m - 1][n - 1]) return 0
+    obstacleGrid[0][0] = 1
     
-    let numWays = new Array(m + 1).fill().map(_ => new Array(n + 1).fill(0))
-    numWays[1][1] = 1
-    for (let i = 1; i <= m; i++) {
-        for (let j = 1; j <= n; j++) {
-            if (obstacleGrid[i - 1][j - 1] || numWays[i][j]) continue
-            
-            numWays[i][j] = numWays[i - 1][j] + numWays[i][j -1]
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            if (i === 0 && j === 0) continue
+            if (obstacleGrid[i][j]) {
+                obstacleGrid[i][j] = 0
+                continue                        
+            }
+            if (i === 0) {
+                obstacleGrid[i][j] = obstacleGrid[i][j - 1]
+            } else if (j === 0) {
+                obstacleGrid[i][j] = obstacleGrid[i - 1][j]
+            } else {
+                obstacleGrid[i][j] = obstacleGrid[i][j - 1] + obstacleGrid[i - 1][j]
+            }
         }
     }
     
-    return numWays[m][n]
+    return obstacleGrid[m - 1][n - 1]
 };
