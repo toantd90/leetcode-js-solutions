@@ -11,8 +11,6 @@ const maximumBags = (capacity, rocks, additionalRocks) => {
     
     rocks.sort((r1, r2) => r1 - r2)
     
-    console.log(rocks)
-    
     let bags = 0
     for (let i = 0; additionalRocks > 0 && i < rocks.length; i++) {
         additionalRocks -= rocks[i]
