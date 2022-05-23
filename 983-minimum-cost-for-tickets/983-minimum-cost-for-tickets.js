@@ -6,14 +6,17 @@
 const mincostTickets = (days, costs) => {
     const lastDay = days[days.length - 1]
     let dp = new Array(lastDay + 1).fill(0)
+    let currentDay = 0
     
-    for (let i = 0; i < days.length; i++) {
-        const currentDay = days[i]
-        for (let j = days[i - 1]; j < currentDay; j++) {
-            dp[j] = dp[days[i - 1]]
+    for (let day = 1; day <= lastDay; day++) {
+        if (day < days[currentDay]) {
+            dp[day] = dp[day - 1]
+        } else {
+            dp[day] = Math.min(dp[day - 1] + costs[0], (dp[day - 7] || 0) + costs[1], (dp[day - 30] || 0) + costs[2])
+            currentDay++
         }
         
-        dp[currentDay] = Math.min(dp[currentDay - 1] + costs[0], (dp[currentDay - 7] || 0) + costs[1], (dp[currentDay - 30] || 0) + costs[2])
+        
     }
     
     
