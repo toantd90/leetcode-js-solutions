@@ -4,7 +4,6 @@
  * @return {number}
  */
 const mincostTickets = (days, costs) => {
-    const firstDay = days[0]
     const lastDay = days[days.length - 1]
     let dp = new Array(lastDay + 1).fill(0)
     
