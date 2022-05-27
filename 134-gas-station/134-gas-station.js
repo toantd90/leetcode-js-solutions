@@ -3,7 +3,7 @@
  * @param {number[]} cost
  * @return {number}
  */
-var canCompleteCircuit = function(gas, cost) {
+const canCompleteCircuit = (gas, cost) => {
     const n = gas.length
     let start = 0
     let totalDiff = 0
