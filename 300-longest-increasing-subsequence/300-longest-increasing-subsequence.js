@@ -1,19 +1,36 @@
+const binarySearch = (nums, dp, value) => {
+    let l = 0
+    let r = dp.length - 1
+    
+    while (l <= r) {
+        const mid = l + Math.floor((r - l) / 2)
+        
+        if (nums[dp[mid]] < value) {
+            l++
+        } else {
+            r--
+        }
+    }
+    
+    return l
+}
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
 const lengthOfLIS = nums => {
-    let dp = new Array(nums.length).fill(1)
-    let length = 1
+    let dp = [0]
     
     for (let i = 1; i < nums.length; i++) {
-        for (let j = 0; j < i; j++) {
-            if (nums[j] < nums[i] && dp[i] < dp[j] + 1) {
-                dp[i] = dp[j] + 1
-                length = Math.max(length, dp[i])
-            }
+        if (nums[i] > nums[dp[dp.length - 1]]) {
+            dp.push(i)
+        } else {
+            const index = binarySearch(nums, dp, nums[i])
+            
+            dp[index] = i
         }
     }
     
-    return length
+    return dp.length
 };
