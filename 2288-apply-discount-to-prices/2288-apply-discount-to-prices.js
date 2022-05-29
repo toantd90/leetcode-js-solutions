@@ -1,9 +1,3 @@
-function addZeroes(num) {
-  const dec = num.split('.')[1]
-  const len = dec && dec.length > 2 ? dec.length : 2
-  return Number(num).toFixed(len)
-}
-
 /**
  * @param {string} sentence
  * @param {number} discount
@@ -20,8 +14,7 @@ var discountPrices = function(sentence, discount) {
             }
             
             if (price && !isNaN(price)) {
-                const totalPrice = (Number(price) * (1 - discount / 100)).toFixed(2)
-                ans += totalPrice
+                ans += (Number(price) * (1 - discount / 100)).toFixed(2)
             } else {
                 ans += price
             }
