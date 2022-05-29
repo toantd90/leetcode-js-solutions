@@ -2,19 +2,26 @@
  * @param {string[]} strs
  * @return {string[][]}
  */
-const groupAnagrams = strs => {
-    let cnt = {}
-    for (let str of strs) {
-        const orderStr = str.split('').sort().join('')
-        if (!cnt[orderStr]) {
-            cnt[orderStr] = []
+
+var groupAnagrams = function(strs) {
+    let map=new Map()
+    let result=[]
+    for(str of strs){       
+        let sortstr= str.split('').sort().join();
+        //need to consider sorting algorithim
+        if (map.has(sortstr)){
+            let array= map.get(sortstr)
+                array.push(str)
+            map.set(sortstr,array )
         }
-        
-        cnt[orderStr].push(str)
+        else{
+            map.set(sortstr,[str])
+
+        }        
     }
-    
-    let ans = []
-    Object.values(cnt).forEach(group => ans.push(group))
-    
-    return ans
+
+    for(let key of map.keys()){
+        result.push(map.get(key))
+    }
+    return result;
 };
