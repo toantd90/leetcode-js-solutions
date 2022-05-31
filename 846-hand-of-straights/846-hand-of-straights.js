@@ -17,10 +17,9 @@ var isNStraightHand = function(hand, groupSize) {
     for (let i = 0; i < nums.length; i++) {
         if (cnt[nums[i]] === 0) continue
         const groupCnt = cnt[nums[i]] 
-        for (let j = 0; j < groupSize; j++) {
-            const curNum = Number(nums[i]) + j 
-            if (!cnt[curNum] || cnt[curNum] < groupCnt) return false
-            cnt[curNum] -= groupCnt
+        for (let j = Number(nums[i]); j < Number(nums[i]) + groupSize; j++) {
+            if (!cnt[j] || cnt[j] < groupCnt) return false
+            cnt[j] -= groupCnt
         }
     }
     
