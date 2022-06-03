@@ -1,36 +1,27 @@
 /**
  * @param {number[][]} matrix
  */
-var NumMatrix = function(matrix) {
+
+class NumMatrix {
+  constructor(matrix) {
+    
     const m = matrix.length
+    if (m === 0)
+      return
     const n = matrix[0].length
-    
+
+    let rangeSum = new Array(m + 1).fill(0).map(() => new Array(n + 1).fill(0))
+
     for (let i = 0; i < m; i++) {
-        for (let j = 1; j < n; j++) {
-            matrix[i][j] += matrix[i][j - 1]
-        }
+      for (let j = 0; j < n; j++) {
+        rangeSum[i + 1][j + 1] = rangeSum[i][j + 1] + rangeSum[i + 1][j] - rangeSum[i][j] + matrix[i][j]
+      }
     }
-    this.matrix = matrix
-};
 
-/** 
- * @param {number} row1 
- * @param {number} col1 
- * @param {number} row2 
- * @param {number} col2
- * @return {number}
- */
-NumMatrix.prototype.sumRegion = function(row1, col1, row2, col2) {
-    let sum = 0
-    for (let i = row1; i <= row2; i++) {
-        sum += this.matrix[i][col2] - (this.matrix[i][col1 - 1] || 0)
-    }
-    
-    return sum
-};
-
-/** 
- * Your NumMatrix object will be instantiated and called as such:
- * var obj = new NumMatrix(matrix)
- * var param_1 = obj.sumRegion(row1,col1,row2,col2)
- */
+    this.rangeSum = rangeSum
+  }
+  
+  sumRegion(r1, c1, r2, c2) {
+    return this.rangeSum[r2 + 1][c2 + 1] - this.rangeSum[r2 + 1][c1] - this.rangeSum[r1][c2 + 1] + this.rangeSum[r1][c1]
+  }
+}
