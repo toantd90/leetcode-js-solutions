@@ -17,7 +17,7 @@ const minEatingSpeed = (piles, h) => {
     if (piles.length === 1) return Math.ceil(piles[0] / h)
     
     let l = 1;
-    let r = 1e9 + 1;
+    let r = 1e9;
     
     
     while (l <= r) {
