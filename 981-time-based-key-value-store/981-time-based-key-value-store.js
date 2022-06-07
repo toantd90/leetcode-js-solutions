@@ -10,9 +10,8 @@ var TimeMap = function() {
  * @return {void}
  */
 TimeMap.prototype.set = function(key, value, timestamp) {
-    if (!this.timeMap[key]) this.timeMap[key] = { times: [], timeMap: {} }
-    this.timeMap[key].times.push(timestamp)
-    this.timeMap[key].timeMap[timestamp] = value
+    if (!this.timeMap[key]) this.timeMap[key] = []
+    this.timeMap[key].push({ timestamp, value })
 };
 
 /** 
@@ -25,24 +24,24 @@ TimeMap.prototype.get = function(key, timestamp) {
     
     const largestTimeStamp = this.getLargestTimeStamp(key, timestamp)
     
-    return largestTimeStamp === null ? "" : this.timeMap[key].timeMap[largestTimeStamp]
+    return largestTimeStamp === null ? "" : largestTimeStamp.value
 };
     
 TimeMap.prototype.getLargestTimeStamp = function(key, timestamp) {
     let l = 0
-    let r = this.timeMap[key].times.length - 1
+    let r = this.timeMap[key].length - 1
     
     while (l <= r) {
         const mid = l + Math.floor((r - l) / 2)
         
-        if (this.timeMap[key].times[mid] > timestamp) {
+        if (this.timeMap[key][mid].timestamp > timestamp) {
             r = mid - 1
         } else {
             l = mid + 1
         }
     }
     
-    return r !== -1 ? this.timeMap[key].times[r] : null
+    return r !== -1 ? this.timeMap[key][r] : null
 }
 
 /** 
