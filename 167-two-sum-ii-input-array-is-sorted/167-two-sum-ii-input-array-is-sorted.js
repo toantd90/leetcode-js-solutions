@@ -1,19 +1,19 @@
 /**
- * @param {number[]} numbers
+ * @param {number[]} nums
  * @param {number} target
  * @return {number[]}
  */
-const twoSum = (numbers, target) => {
-    let l = 0, r = numbers.length - 1
+var twoSum = function(nums, target) {
+    let first = 0
+    let last = nums.length - 1
     
-    while (l < r) {
-        const sum = numbers[l] + numbers[r]
-        if (sum === target) {
-            return [l + 1, r + 1]
-        } else if (sum > target) {
-            r--
+    while (first < last) {
+        if (nums[first] + nums[last] === target) {
+            return [first + 1, last + 1]
+        } else if (nums[first] + nums[last] > target) {
+            last--
         } else {
-            l++
+            first++
         }
     }
 };
