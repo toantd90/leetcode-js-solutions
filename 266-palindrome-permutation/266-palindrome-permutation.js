@@ -11,7 +11,6 @@ var canPermutePalindrome = function(s) {
     
     let odd = 0
     let values = Object.values(charCount)
-    console.log(values)
     
     for (let i = 0; i < values.length; i++) {
         if (values[i] % 2 === 1) odd++
