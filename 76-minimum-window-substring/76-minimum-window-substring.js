@@ -1,10 +1,9 @@
-const frequentCount = (c, cntT) => {
+const getIndex = (c) => {
   const charCode = c.charCodeAt(0);
-  if (charCode >= 97) {
-    cntT[charCode - 97 + 26]++;
-  } else {
-    cntT[charCode - 65]++;
-  }
+
+  if (charCode >= 97) return charCode - 97 + 26;
+
+  return charCode - 65;
 };
 
 const isValidSubstring = (cntS, cntT) =>
@@ -23,7 +22,7 @@ var minWindow = function (s, t) {
   let cntT = new Array(52).fill(0);
 
   for (let c of t) {
-    frequentCount(c, cntT);
+    cntT[getIndex(c)]++;
   }
 
   let minimumSubstring = s.length + 1;
@@ -31,16 +30,12 @@ var minWindow = function (s, t) {
 
   let cntS = new Array(52).fill(0);
   while (end < s.length && !isValidSubstring(cntS, cntT)) {
-    frequentCount(s[end], cntS);
+    cntS[getIndex(s[end])]++;
 
     if (isValidSubstring(cntS, cntT)) {
       while (isValidSubstring(cntS, cntT)) {
-        const charCode = s.charCodeAt(start);
-        if (charCode >= 97) {
-          cntS[charCode - 97 + 26]--;
-        } else {
-          cntS[charCode - 65]--;
-        }
+        cntS[getIndex(s[start])]--;
+
         start++;
       }
 
