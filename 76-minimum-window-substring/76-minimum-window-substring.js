@@ -13,7 +13,7 @@ const isValidSubstring = (cntS, cntT) =>
  * @param {string} t
  * @return {string}
  */
-var minWindow = function (s, t) {
+const minWindow = (s, t) => {
   if (t.length > s.length) return '';
 
   let start = 0;
