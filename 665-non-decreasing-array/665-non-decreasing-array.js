@@ -7,6 +7,9 @@ const checkPossibility = nums => {
   let modifyId = -1
   for (let i = 0; i < nums.length; i++) {
     if (nums[i] > nums[i + 1]) {
+      if (decreasingTimes === 1)
+        return false
+
       decreasingTimes++
         
       if (nums[i - 1] > nums[i + 1])
@@ -14,8 +17,7 @@ const checkPossibility = nums => {
       else 
         nums[i] = nums[i -1]
         
-      if (decreasingTimes > 1)
-        return false
+      
     }
     
   }
