@@ -3,7 +3,7 @@
  * @param {string} message
  * @return {string}
  */
-var decodeMessage = function(key, message) {
+const decodeMessage = (key, message) => {
   let substitutionTable = {}
   
   for (let i = 0; i < 26; i++) {
