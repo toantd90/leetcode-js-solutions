@@ -5,23 +5,20 @@
 var longestConsecutive = function(nums) {
   if (nums.length === 0) return 0
   
-  let numMap = {}
-  nums.forEach(num => numMap[num] = 1)
-  
+  let set = new Set(nums)
   let longest = 0
-  
-  for (let i = 0; i < nums.length; i++) {
-    let cnt = 1
-    let cur = nums[i]
+
+  for (let num of set) {
+    if (set.has(num - 1)) continue
+    let curNum = num
+    let curLength = 1
     
-    if (numMap[cur] !== 1) continue
-    while (numMap[cur + 1]) {
-      numMap[cur + 1] = numMap[cur] + 1
-      cur = cur + 1
-      cnt++
+    while (set.has(curNum + 1)) {
+      curNum++
+      curLength++
     }
     
-    longest = Math.max(longest, cnt)
+    longest = Math.max(longest, curLength)
   }
   
   return longest
