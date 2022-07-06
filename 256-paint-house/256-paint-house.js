@@ -2,22 +2,13 @@
  * @param {number[][]} costs
  * @return {number}
  */
-var minCost = function(costs) {
-  let previousCost = [...costs[0]]
-  let totalCost = [...costs[0]]
+const minCost = costs => {
   
   for (let i = 1; i < costs.length; i++) {
-    for (let j = 0; j < 3; j++) {
-      if (j == 0) {
-        totalCost[j] = costs[i][j] + Math.min(previousCost[1], previousCost[2])  
-      } else if (j == 1) {
-        totalCost[j] = costs[i][j] + Math.min(previousCost[0], previousCost[2])
-      } else {
-        totalCost[j] = costs[i][j] + Math.min(previousCost[0], previousCost[1])
-      }
-    }
-    previousCost = [...totalCost]
+    costs[i][0] += Math.min(costs[i - 1][1], costs[i - 1][2])
+    costs[i][1] += Math.min(costs[i - 1][0], costs[i - 1][2])
+    costs[i][2] += Math.min(costs[i - 1][0], costs[i - 1][1])
   }
   
-  return Math.min(...totalCost)
+  return Math.min(...costs[costs.length - 1])
 };
