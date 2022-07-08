@@ -2,15 +2,12 @@
  * @param {number[]} nums
  * @return {number}
  */
-const rob = nums => {
-    let first = 0
-    let last = nums[0]
-    
-    for (let i = 1; i < nums.length; i++) {
-        const temp = Math.max(last, first + nums[i])
-        first = last
-        last = temp
-    }
-    
-    return last
+var rob = function(nums) {
+  let dp = [0, nums[0]]
+  
+  for (let i = 1; i < nums.length; i++) {
+    dp[i + 1] = Math.max(dp[i], dp[i - 1] + nums[[i]])
+  }
+  
+  return dp[nums.length]
 };
