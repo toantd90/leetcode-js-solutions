@@ -17,7 +17,7 @@ var levelOrder = function(root) {
   
   while (queue.length) {
     const size = queue.length
-    ans[ans.length] = []
+    ans.push([])
     
     for (let i = 0; i < size; i++) {
       const node = queue[i]
