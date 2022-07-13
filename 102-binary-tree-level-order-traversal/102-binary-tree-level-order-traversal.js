@@ -17,17 +17,17 @@ var levelOrder = function(root) {
   
   while (queue.length) {
     const size = queue.length
-    let curLevel = []
+    ans[ans.length] = []
     
     for (let i = 0; i < size; i++) {
-      const node = queue.shift()
-      curLevel.push(node.val)
+      const node = queue[i]
+      ans[ans.length - 1].push(node.val)
       
       if (node.left) queue.push(node.left)
       if (node.right) queue.push(node.right)
     }
     
-    ans.push(curLevel)
+    queue.splice(0, size);
   }
 
   return ans
