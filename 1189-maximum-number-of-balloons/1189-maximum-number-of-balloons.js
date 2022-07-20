@@ -2,7 +2,7 @@
  * @param {string} text
  * @return {number}
  */
-var maxNumberOfBalloons = function(text) {
+const maxNumberOfBalloons = text => {
   let map = { b: 0, a: 0, l: 0, o: 0, n: 0 }
   
   for (let c of text) {
