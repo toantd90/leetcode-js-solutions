@@ -16,6 +16,7 @@ var maxAscendingSum = function(nums) {
       }
     }
     maxSum = Math.max(maxSum, curSum)
+    i = j
   }
   
   return maxSum
