@@ -2,7 +2,7 @@
  * @param {number[]} nums
  * @return {number}
  */
-var maxAscendingSum = function(nums) {
+const maxAscendingSum = nums => {
   let maxSum = 0
   let curSum = 0
   
