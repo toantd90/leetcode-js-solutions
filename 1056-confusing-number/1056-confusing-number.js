@@ -4,10 +4,10 @@ const invalidNums = ['2', '3', '4', '5', '7']
  * @param {number} n
  * @return {boolean}
  */
-var confusingNumber = function(n) {
-  const nums = n.toString().split('').reverse()
+const confusingNumber = n => {
+  const nums = n.toString()
   let rotated = '' 
-  for (let i = 0; i < nums.length; i++) {
+  for (let i = nums.length - 1; i >= 0; i--) {
     const num = nums[i]
     if (invalidNums.includes(num)) {
       return false
