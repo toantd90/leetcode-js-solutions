@@ -1,65 +1,24 @@
-function isSubsetFn (source, target) {
-  const chars = Object.keys(source)
-  
-  for (let i = 0; i < chars.length; i++) {
-    const char = chars[i]
-    if (!target[char] || target[char] < source[char])
-      return false
-  }
-  
-  return true
-}
-
-function wordCount (word) {
-  let cnt = {}
-
-  for (let c of word) {
-    cnt[c] = (cnt[c] || 0) + 1
-  }
-  
-  return cnt
-}
-
-function wordsCount (words) {
-  let wordCounts = []
-  
-  for (let word of words) {
-    wordCounts.push(wordCount(word))
-  }
-  
-  return wordCounts
-}
-
-function maxWordsCount (words) {
-  let maxCount = {}
-  
-  for (let word of words) {
-    const count = wordCount(word)
-    
-    for (let char in count) {
-      maxCount[char] = Math.max(maxCount[char] || 0, count[char])
+var wordSubsets = function(A, B) {
+    let Bfreq = new Int8Array(26), cmax = 0,
+        check = new Int8Array(26), ans = []
+    for (let i = 0; i < B.length; i++, check.fill()) {
+        let word = B[i]
+        for (let j = 0; j < word.length; j++)
+            check[word.charCodeAt(j) - 97]++
+        for (let j = 0; j < 26; j++) {
+            let diff = check[j] - Bfreq[j]
+            if (diff > 0) cmax += diff, Bfreq[j] += diff
+            if (cmax > 10) return []
+        }
     }
-  }
-  
-  return maxCount
-}
-
-/**
- * @param {string[]} words1
- * @param {string[]} words2
- * @return {string[]}
- */
-function wordSubsets (words1, words2) {
-  let subsets = []
-  
-  let words1Count = wordsCount(words1)
-  let words2MaxCount = maxWordsCount(words2)
-  
-  for (let i = 0; i < words1.length; i++) {
-    if (isSubsetFn(words2MaxCount, words1Count[i])) {
-      subsets.push(words1[i])
+    for (let i = 0; i < A.length; i++, check.fill()) {
+        let word = A[i], j
+        if (word.length < cmax) continue
+        for (j = 0; j < word.length; j++)
+            check[word.charCodeAt(j) - 97]++
+        for (j = 0; j < 26; j++)
+            if (check[j] < Bfreq[j]) break
+        if (j === 26) ans.push(word)
     }
-  }
-  
-  return subsets
+    return ans
 };
