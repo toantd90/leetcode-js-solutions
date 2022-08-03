@@ -11,7 +11,7 @@ var MyCalendar = function() {
 MyCalendar.prototype.book = function(start, end) {
   this.cal.push([start, end])
   
-  const sorted = [...this.cal].sort(([s1, e1], [s2, e2]) => s1 - s2)
+  const sorted = this.cal.slice().sort(([s1, e1], [s2, e2]) => s1 - s2)
   
   for (let i = 1; i < sorted.length; i++) {
     const prev = sorted[i-1]
