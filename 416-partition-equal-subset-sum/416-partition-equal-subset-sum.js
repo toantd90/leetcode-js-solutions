@@ -26,6 +26,8 @@ function canPartition(nums) {
       } else {
         dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i]]  
       }
+      
+      if (j == target && dp[i][j]) return true
     }
   }
   
