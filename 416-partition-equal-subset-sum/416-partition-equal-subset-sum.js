@@ -8,14 +8,10 @@ function canPartition(nums) {
 
   const target = sum / 2
   
-  let dp = new Array(nums.length + 1).fill().map(_ => new Array(target + 1))
+  let dp = new Array(nums.length + 1).fill().map(_ => new Array(target + 1).fill(false))
   
   for (let i = 0; i < nums.length + 1; i++) {
     dp[i][0] = true
-  }
-  
-  for (let i = 1; i < target + 1; i++) {
-    dp[0][i] = false
   }
   
   for (let i = 1; i < nums.length; i++) {
