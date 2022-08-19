@@ -18,9 +18,7 @@ function totalFruit(fruits) {
       startTreeIndex++
     }
     
-    
     maxFruits = Math.max(maxFruits, i - startTreeIndex + 1)
-    
   }
   
   return maxFruits
