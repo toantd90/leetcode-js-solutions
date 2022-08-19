@@ -1,26 +1,16 @@
-/**
- * @param {number[]} fruits
- * @return {number}
- */
-function totalFruit(fruits) {
-  let baskets = {}
-  let maxFruits = 0
-  let startTreeIndex = 0
-  
-  for (let i = 0; i < fruits.length; i++) {
-    const fruitType = fruits[i]
-    baskets[fruitType] = (baskets[fruitType] || 0) + 1
-    
-    while (Object.keys(baskets).length > 2 && startTreeIndex < fruits.length) {
-      const fruitType = fruits[startTreeIndex]
-      baskets[fruitType]--
-      if (baskets[fruitType] == 0) delete baskets[fruitType]
-      startTreeIndex++
+const totalFruit = array => {
+    let map = new Map(), max = -1
+    for(let start = 0, end = 0; end < array.length; end++){
+        let currElement = array[end]
+        map.set(currElement, map.get(currElement)+1 || 1 )
+        while(map.size > 2){
+            let char = array[start]
+            let charCount = map.get(char)
+            if(charCount-1 === 0)map.delete(char)
+            else map.set(char, charCount-1)
+            start++
+        }
+        if(map.size >= 1)max = Math.max(max, end + 1 - start)
     }
-    
-    maxFruits = Math.max(maxFruits, i - startTreeIndex + 1)
-  }
-  
-  return maxFruits
-  
+    return max
 };
