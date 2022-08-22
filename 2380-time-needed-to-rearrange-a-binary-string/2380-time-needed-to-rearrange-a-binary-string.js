@@ -13,10 +13,3 @@ function secondsToRemoveOccurrences(s) {
   
   return seconds
 };
-
-
-// "001011"
-// "010101"
-// "101010"
-// "110100"
-// "111000"
