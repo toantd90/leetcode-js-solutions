@@ -6,13 +6,13 @@
 function fairCandySwap(aliceSizes, bobSizes) {
   const aliceTotalAmount = aliceSizes.reduce((accumlation, current) => accumlation + current, 0) 
   const bobTotalAmount = bobSizes.reduce((accumlation, current) => accumlation + current, 0) 
-  const fairTotalAmount = (aliceTotalAmount + bobTotalAmount) / 2
+  const diff = (aliceTotalAmount - bobTotalAmount) / 2
   
-  for (let i = 0; i < aliceSizes.length; i++) {
-    for (let j = 0; j < bobSizes.length; j++) {
-      if (aliceTotalAmount + bobSizes[j] - aliceSizes[i] == fairTotalAmount) {
-        return [aliceSizes[i], bobSizes[j]]
-      }
+  const aliceSizesSet = new Set(aliceSizes)
+  
+  for (let i = 0; i < bobSizes.length; i++) {
+    if (aliceSizesSet.has(bobSizes[i] + diff)) {
+      return [bobSizes[i] + diff, bobSizes[i]]
     }
   }
 };
