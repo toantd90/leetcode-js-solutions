@@ -3,7 +3,6 @@
  * @return {number}
  */
 function minCostToMoveChips(position) {
-  let cost = Number.MAX_SAFE_INTEGER
   let oddPositionCoints = 0
   let evenPositionCoints = 0
   
@@ -14,14 +13,6 @@ function minCostToMoveChips(position) {
       oddPositionCoints++
     }
   }
-
-  for (let i = 0; i < position.length; i++) {
-    if (position[i] % 2 == 0) {
-      cost = Math.min(cost, oddPositionCoints)
-    } else {
-      cost = Math.min(cost, evenPositionCoints)
-    }
-  }
   
-  return cost
+  return Math.min(evenPositionCoints, oddPositionCoints)
 };
