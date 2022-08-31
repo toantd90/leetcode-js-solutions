@@ -16,14 +16,11 @@ function minCostToMoveChips(position) {
   }
 
   for (let i = 0; i < position.length; i++) {
-    let currentCost = 0
     if (position[i] % 2 == 0) {
-      currentCost += oddPositionCoints
+      cost = Math.min(cost, oddPositionCoints)
     } else {
-      currentCost += evenPositionCoints
+      cost = Math.min(cost, evenPositionCoints)
     }
-    
-    cost = Math.min(cost, currentCost)
   }
   
   return cost
