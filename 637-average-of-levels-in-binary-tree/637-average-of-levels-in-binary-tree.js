@@ -19,7 +19,7 @@ function averageOfLevels(root) {
     let sum = 0
     
     for (let i = 0; i < size; i++) {
-      const node = queue.shift()
+      const node = queue[i]
       sum += node.val
       
       if (node.left) {
@@ -32,6 +32,7 @@ function averageOfLevels(root) {
     }
     
     average.push((sum / size).toFixed(5))
+    queue.splice(0, size);
   }
   
   return average
