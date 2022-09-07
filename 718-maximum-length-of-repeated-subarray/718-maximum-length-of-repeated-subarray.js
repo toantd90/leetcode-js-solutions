@@ -4,26 +4,20 @@
  * @return {number}
  */
 function findLength(nums1, nums2) {
-  let maxLength = 0
-
-  for (let i = 0; i < nums1.length; i++) {
-    for (let j = 0; j < nums2.length; j++) {
-      if (nums1[i] == nums2[j] && (nums1[i] !== nums1[i - 1] || nums2[j] !== nums2[j - 1])) {
-        let curLength = 0
-        
-        let k = i
-        let l = j
-        
-        while (nums1[k] == nums2[l] && k < nums1.length && l < nums2.length) {
-          k++
-          l++
-          curLength++
-        }
-        
-        maxLength = Math.max(maxLength, curLength)
+  const m = nums1.length
+  const n = nums2.length
+  
+  let dp = new Array(m + 1).fill().map(_ => new Array(n + 1).fill(0))
+  let max = 0
+  
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (nums1[i - 1] == nums2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1
       }
+      max = Math.max(max, dp[i][j])
     }
   }
   
-  return maxLength
+  return max
 };
