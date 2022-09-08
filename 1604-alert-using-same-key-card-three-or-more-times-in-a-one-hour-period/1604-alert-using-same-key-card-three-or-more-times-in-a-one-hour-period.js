@@ -12,7 +12,7 @@ function alertNames(keyName, keyTime) {
     const workerName = keyName[i]
     
     const [hour, minute] = keyTime[i].split(':').map(Number)
-    const time = hour + +((minute / 60).toFixed(2))
+    const time = hour * 60 + +minute
     
     if (!workerTimeMap[workerName]) {
       workers.push(workerName)
@@ -22,7 +22,7 @@ function alertNames(keyName, keyTime) {
     workerTimeMap[workerName].push(time)
   }
   
-  let alertedWorkersSet = new Set()
+  let alertedWorkers = []
   
   for (let i = 0; i < workers.length; i++) {
     const workerName = workers[i]
@@ -30,14 +30,12 @@ function alertNames(keyName, keyTime) {
     const times = workerTimeMap[workerName].sort((t1, t2) => t1 - t2)
     
     for (let i = 0; i < times.length - 2; i++) {
-      if (+(times[i + 1] - times[i]).toFixed(2) <= 1 && +(times[i + 2] - times[i + 1]).toFixed(2) <= 1 && +(times[i + 2] - times[i]).toFixed(2) <= 1) {
-        alertedWorkersSet.add(workerName)
+      if (times[i + 2] - times[i] <= 60) {
+        alertedWorkers.push(workerName)
         break
       }
     }
   }
-  
-  const alertedWorkers = Array.from(alertedWorkersSet)
   
   alertedWorkers.sort()
   
