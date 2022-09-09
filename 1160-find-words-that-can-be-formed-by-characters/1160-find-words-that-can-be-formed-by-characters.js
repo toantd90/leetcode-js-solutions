@@ -25,7 +25,14 @@ function countCharacters(words, chars) {
     
     let isGood = true
     
-    if (chars.every(char => charCnt[char] <= charsCnt[char])) {
+    for (let i = 0; i < chars.length; i++) {
+      if (!charsCnt[chars[i]] || charCnt[chars[i]] > charsCnt[chars[i]]) {
+        isGood = false
+        break
+      }
+    }
+    
+    if (isGood) {
       sumLen += word.length
     }
   }
