@@ -3,25 +3,23 @@
  * @return {string[]}
  */
 function subdomainVisits(cpdomains) {
-  let domainCount = {}
-  
+  let subDomainCnt = {}
   for (let cpdomain of cpdomains) {
-    const [count, fullDomain] = cpdomain.split(' ')
+    const [visitedTimes, domain] = cpdomain.split(' ')
+    const subDomains = domain.split('.')
+    let subDomain = subDomains[subDomains.length - 1]
+    subDomainCnt[subDomain] = (subDomainCnt[subDomain] || 0) + Number(visitedTimes)
     
-    const domains = fullDomain.split('.')
-    let curDomain = domains[domains.length - 1]
-    domainCount[curDomain] = (domainCount[curDomain] || 0) + Number(count)
-    
-    for (let i = domains.length - 2; i >= 0; i--) {
-      curDomain = domains[i] + '.' + curDomain
-      domainCount[curDomain] = (domainCount[curDomain] || 0) + Number(count)
+    for (let i = subDomains.length - 2; i >= 0; i--) {
+      subDomain = subDomains[i] + '.' + subDomain
+      subDomainCnt[subDomain] = (subDomainCnt[subDomain] || 0) + Number(visitedTimes)
     }
   }
   
-  let subDomainArray = []
-  for (let domain in domainCount) {
-    subDomainArray.push(domainCount[domain] + ' ' + domain)
+  let result = []
+  for (let subDomain in subDomainCnt) {
+    result.push(subDomainCnt[subDomain] + ' ' +subDomain)
   }
   
-  return subDomainArray
+  return result
 };
