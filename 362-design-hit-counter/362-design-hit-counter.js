@@ -53,7 +53,7 @@ HitCounter.prototype.searchLastHit = function (timestamp, l) {
     if (this.logs[mid][0] > timestamp) {
       r = mid - 1;
     } else {
-      if (mid == r && this.logs[mid + 1][0] > timestamp) return mid;
+      if (this.logs[mid + 1][0] > timestamp) return mid;
       else l = mid + 1;
     }
   }
