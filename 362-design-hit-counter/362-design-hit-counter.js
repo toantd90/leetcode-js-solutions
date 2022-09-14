@@ -71,11 +71,7 @@ HitCounter.prototype.getHits = function (timestamp) {
   const lastHitIndex = this.searchLastHit(timestamp);
 
   return (
-    (this.logs[lastHitIndex]
-      ? this.logs[lastHitIndex][1]
-      : this.logs[this.logs.length - 1]
-      ? this.logs[this.logs.length - 1][1]
-      : 0) -
+    (this.logs[lastHitIndex] ? this.logs[lastHitIndex][1] : 0) -
     (this.logs[firstHitIndex - 1] ? this.logs[firstHitIndex - 1][1] : 0)
   );
 };
