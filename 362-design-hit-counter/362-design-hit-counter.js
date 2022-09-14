@@ -1,6 +1,5 @@
 var HitCounter = function () {
-  this.calls = [];
-  this.calledAt = new Map();
+  this.logs = [];
 };
 
 /**
@@ -8,13 +7,58 @@ var HitCounter = function () {
  * @return {void}
  */
 HitCounter.prototype.hit = function (timestamp) {
-  if (
-    this.calls.length === 0 ||
-    this.calls[this.calls.length - 1] != timestamp
-  ) {
-    this.calls.push(timestamp);
+  if (!this.logs.length) {
+    this.logs.push([timestamp, 1]);
+    return;
   }
-  this.calledAt.set(timestamp, (this.calledAt.get(timestamp) || 0) + 1);
+
+  const lastLog = this.logs[this.logs.length - 1];
+
+  if (lastLog[0] == timestamp) {
+    this.logs[this.logs.length - 1] = [lastLog[0], lastLog[1] + 1];
+  } else {
+    this.logs.push([timestamp, lastLog[1] + 1]);
+  }
+};
+
+HitCounter.prototype.searchFirstHit = function (timestamp) {
+  let l = 0;
+  let r = this.logs.length - 1;
+
+  if (timestamp < 0) timestamp = 0;
+
+  while (l <= r) {
+    let mid = l + Math.floor((r - l) / 2);
+
+    if (this.logs[mid][0] <= timestamp) {
+      l = mid + 1;
+    } else {
+      if (mid == l || this.logs[mid - 1][0] <= timestamp) {
+        return mid;
+      } else {
+        r = mid - 1;
+      }
+    }
+  }
+
+  return l;
+};
+
+HitCounter.prototype.searchLastHit = function (timestamp, l) {
+  let r = this.logs.length - 1;
+
+  while (l < r) {
+    let mid = l + Math.floor((r - l) / 2);
+
+    if (this.logs[mid][0] > timestamp) {
+      r = mid - 1;
+    } else {
+      if (mid == r && this.logs[mid + 1][0] > timestamp) return mid;
+      else l = mid + 1;
+    }
+  }
+
+  return r;
 };
 
 /**
@@ -22,36 +66,13 @@ HitCounter.prototype.hit = function (timestamp) {
  * @return {number}
  */
 HitCounter.prototype.getHits = function (timestamp) {
-  let hitCount = 0;
-  let index = this._getUpperBound(timestamp);
+  const firstHitIndex = this.searchFirstHit(timestamp - 300);
+  const lastHitIndex = this.searchLastHit(timestamp, firstHitIndex);
 
-  while (this.calls[index] > timestamp - 300) {
-    hitCount += this.calledAt.get(this.calls[index]);
-    index--;
-  }
-  return hitCount;
-};
-
-HitCounter.prototype._getUpperBound = function (timestamp) {
-  // let i = 0;
-  // for (; i < this.calls.length; i ++) {
-  //     if (this.calls[i] > timestamp) {
-  //         break;
-  //     }
-  // }
-  // return i - 1;
-  let left = 0;
-  let right = this.calls.length - 1;
-
-  while (left < right) {
-    let mid = (left + right) >> 1;
-    if (this.calls[mid] > timestamp) {
-      right = mid - 1;
-    } else {
-      left = mid + 1;
-    }
-  }
-  return left;
+  return (
+    (this.logs[lastHitIndex] ? this.logs[lastHitIndex][1] : 0) -
+    (this.logs[firstHitIndex - 1] ? this.logs[firstHitIndex - 1][1] : 0)
+  );
 };
 
 /**
