@@ -1,35 +1,40 @@
+function charCount(word) {
+  const A_CHAR_CODE = 97;
+  let charCnt = new Array(26).fill(0);
+
+  for (let i = 0; i < word.length; i++) {
+    charCnt[word.charCodeAt(i) - A_CHAR_CODE]++;
+  }
+
+  return charCnt;
+}
+
+function isGoodString(wordCnt, goodCnt) {
+  for (let i = 0; i < 26; i++) {
+    if (wordCnt[i] > goodCnt[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 /**
  * @param {string[]} words
  * @param {string} chars
  * @return {number}
  */
 function countCharacters(words, chars) {
-  let charsCnt = new Array(26).fill(0)
-  
-  for (let char of chars) {
-    charsCnt[char.charCodeAt(0) - 97]++
-  }
-  
-  let sumLen = 0
+  const charsCount = charCount(chars);
+  let length = 0;
+
   for (let word of words) {
-    let charCnt = new Array(26).fill(0)
-    for (let char of word) {
-      charCnt[char.charCodeAt(0) - 97]++
-    }
-    
-    let isGood = true
-    
-    for (let i = 0; i < 26; i++) {
-      if (charCnt[i] > charsCnt[i]) {
-        isGood = false
-        break
-      }
-    }
-    
-    if (isGood) {
-      sumLen += word.length
+    const wordCharCount = charCount(word);
+
+    if (isGoodString(wordCharCount, charsCount)) {
+      length += word.length;
     }
   }
-  
-  return sumLen
-};
+
+  return length;
+}
