@@ -1,43 +1,39 @@
+function convertTime(time) {
+  const [hour, minute] = time.split(':').map(Number)
+  
+  return hour * 60 + minute
+}
+
 /**
  * @param {string[]} keyName
  * @param {string[]} keyTime
  * @return {string[]}
  */
 function alertNames(keyName, keyTime) {
-  let workerTimeMap = {}
-  let workers = []
+  const numOfLogs = keyName.length
+  let logByWorker = {}
   
   
-  for (let i = 0; i < keyName.length; i++) {
-    const workerName = keyName[i]
-    
-    const [hour, minute] = keyTime[i].split(':').map(Number)
-    const time = hour * 60 + +minute
-    
-    if (!workerTimeMap[workerName]) {
-      workers.push(workerName)
-      workerTimeMap[workerName] = []
+  for (let i = 0; i < numOfLogs; i++) {
+    if (!logByWorker[keyName[i]]) {
+      logByWorker[keyName[i]] = []
     }
     
-    workerTimeMap[workerName].push(time)
+    logByWorker[keyName[i]].push(convertTime(keyTime[i]))
   }
   
-  let alertedWorkers = []
   
-  for (let i = 0; i < workers.length; i++) {
-    const workerName = workers[i]
+  let alertedUsers = []
+  for (let worker in logByWorker) {
+    const logTimes = logByWorker[worker].sort((t1, t2) => t1 - t2)
     
-    const times = workerTimeMap[workerName].sort((t1, t2) => t1 - t2)
-    
-    for (let i = 0; i < times.length - 2; i++) {
-      if (times[i + 2] - times[i] <= 60) {
-        alertedWorkers.push(workerName)
+    for (let i = 2; i < logTimes.length; i++) {
+      if (logTimes[i] - logTimes[i - 2] <= 60) {
+        alertedUsers.push(worker)
         break
       }
     }
   }
   
-  alertedWorkers.sort()
-  
-  return alertedWorkers
+  return alertedUsers.sort()
 };
