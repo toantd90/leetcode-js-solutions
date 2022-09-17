@@ -1,57 +1,67 @@
+function findEnd(start, maxWidth, words) {
+  let length = words[start].length;
+  let end = start;
+
+  while (
+    end + 1 <= words.length - 1 &&
+    length + end - start + 1 + words[end + 1].length <= maxWidth
+  ) {
+    end++;
+    length += words[end].length;
+  }
+
+  return [end, length];
+}
+
+function generateSpaces(numOfSpace) {
+  return ' '.repeat(numOfSpace)
+}
+
+function padRight(str, maxWidth) {
+  return str + generateSpaces(maxWidth - str.length)
+}
+
 /**
  * @param {string[]} words
  * @param {number} maxWidth
  * @return {string[]}
  */
 function fullJustify(words, maxWidth) {
-  let justifiedText = []
-  
+  let justifiedText = [];
+
   for (let i = 0; i < words.length; i++) {
-    let currentLine = words[i]
-    let currentLineWords = [words[i]]
-    let j = i
-    while (j <= words.length - 2 && currentLine.length + words[j + 1].length + 1 <= maxWidth) {
-      j++
-      currentLine += ' ' + words[j]
-      currentLineWords.push(words[j])
-    }
+    const [end, lengthWithoutSpaces] = findEnd(i, maxWidth, words);
     
-    if (j == words.length - 1) {
-      const rightSpaces = ' '.repeat(maxWidth - currentLine.length)
-      currentLine += rightSpaces
-      justifiedText.push(currentLine)
-      
-      i = j
+    if (end == i) {
+      justifiedText.push(padRight(words[end], maxWidth))
       continue
     }
     
-    if (currentLineWords.length > 1) {
-      let remainingSpaces = maxWidth - currentLine.length + currentLineWords.length - 1
-      const normalSpaces = Math.floor(remainingSpaces / (currentLineWords.length - 1))
+    const numOfSpaces = end - i;
+    let totalSpace = maxWidth - lengthWithoutSpaces;
+    const isLastLine = end == words.length - 1
+    
 
-      let justifiedLine = currentLineWords[currentLineWords.length - 1]
+    let justifiedLine = words[end];
 
-      for (let k = currentLineWords.length - 2; k >= 1; k--) {
-        if (remainingSpaces % (k + 1) == 0) {
-          const equalSpaces = remainingSpaces / (k + 1)
-          justifiedLine = currentLineWords[k] + ' '.repeat(equalSpaces) + justifiedLine
-          remainingSpaces -= equalSpaces
-        } else {
-          justifiedLine = currentLineWords[k] + ' '.repeat(normalSpaces) + justifiedLine  
-          remainingSpaces -= normalSpaces
-        }
-        
-      }
-
-      justifiedLine = currentLineWords[0] + ' '.repeat(remainingSpaces) + justifiedLine
-
-      justifiedText.push(justifiedLine)
-    } else {
-      justifiedText.push(currentLineWords[0] + ' '.repeat(maxWidth - currentLineWords[0].length))
+    for (
+      let j = numOfSpaces, currentWordIndex = end - 1;
+      j >= 1, currentWordIndex >= i;
+      j--, currentWordIndex--
+    ) {
+      const numOfAssignedSpaces = Math.floor(totalSpace / j);
+      justifiedLine = words[currentWordIndex] + (isLastLine ? ' ' : generateSpaces(numOfAssignedSpaces)) + justifiedLine;
+      totalSpace -= numOfAssignedSpaces;
     }
     
-    i = j
+    if (end == words.length - 1) {
+      justifiedLine += generateSpaces(maxWidth - justifiedLine.length)
+    }
+
+    justifiedText.push(justifiedLine);
+
+    i = end;
   }
-  
-  return justifiedText
-};
+
+  return justifiedText;
+}
