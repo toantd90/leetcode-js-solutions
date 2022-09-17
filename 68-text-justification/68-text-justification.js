@@ -14,11 +14,11 @@ function findEnd(start, maxWidth, words) {
 }
 
 function generateSpaces(numOfSpace) {
-  return ' '.repeat(numOfSpace)
+  return ' '.repeat(numOfSpace);
 }
 
 function padRight(str, maxWidth) {
-  return str + generateSpaces(maxWidth - str.length)
+  return str + generateSpaces(maxWidth - str.length);
 }
 
 /**
@@ -31,16 +31,15 @@ function fullJustify(words, maxWidth) {
 
   for (let i = 0; i < words.length; i++) {
     const [end, lengthWithoutSpaces] = findEnd(i, maxWidth, words);
-    
+
     if (end == i) {
-      justifiedText.push(padRight(words[end], maxWidth))
-      continue
+      justifiedText.push(padRight(words[end], maxWidth));
+      continue;
     }
-    
+
     const numOfSpaces = end - i;
     let totalSpace = maxWidth - lengthWithoutSpaces;
-    const isLastLine = end == words.length - 1
-    
+    const isLastLine = end == words.length - 1;
 
     let justifiedLine = words[end];
 
@@ -50,12 +49,15 @@ function fullJustify(words, maxWidth) {
       j--, currentWordIndex--
     ) {
       const numOfAssignedSpaces = Math.floor(totalSpace / j);
-      justifiedLine = words[currentWordIndex] + (isLastLine ? ' ' : generateSpaces(numOfAssignedSpaces)) + justifiedLine;
+      justifiedLine =
+        words[currentWordIndex] +
+        (isLastLine ? ' ' : generateSpaces(numOfAssignedSpaces)) +
+        justifiedLine;
       totalSpace -= numOfAssignedSpaces;
     }
-    
+
     if (end == words.length - 1) {
-      justifiedLine += generateSpaces(maxWidth - justifiedLine.length)
+      justifiedLine += generateSpaces(maxWidth - justifiedLine.length);
     }
 
     justifiedText.push(justifiedLine);
