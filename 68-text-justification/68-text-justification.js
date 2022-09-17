@@ -21,23 +21,13 @@ function padRight(str, maxWidth) {
   return str + generateSpaces(maxWidth - str.length);
 }
 
-/**
- * @param {string[]} words
- * @param {number} maxWidth
- * @return {string[]}
- */
-function fullJustify(words, maxWidth) {
-  let justifiedText = [];
-
-  for (let i = 0; i < words.length; i++) {
-    const [end, lengthWithoutSpaces] = findEnd(i, maxWidth, words);
-
-    if (end == i) {
-      justifiedText.push(padRight(words[end], maxWidth));
-      continue;
+function justify(start, end, lengthWithoutSpaces, words, maxWidth) {
+  
+    if (end == start) {
+      return padRight(words[end], maxWidth);
     }
 
-    const numOfSpaces = end - i;
+    const numOfSpaces = end - start;
     let totalSpace = maxWidth - lengthWithoutSpaces;
     const isLastLine = end == words.length - 1;
 
@@ -45,7 +35,7 @@ function fullJustify(words, maxWidth) {
 
     for (
       let j = numOfSpaces, currentWordIndex = end - 1;
-      j >= 1, currentWordIndex >= i;
+      j >= 1, currentWordIndex >= start;
       j--, currentWordIndex--
     ) {
       const numOfAssignedSpaces = Math.floor(totalSpace / j);
@@ -60,9 +50,21 @@ function fullJustify(words, maxWidth) {
       justifiedLine += generateSpaces(maxWidth - justifiedLine.length);
     }
 
-    justifiedText.push(justifiedLine);
+    return justifiedLine;
+}
 
-    i = end;
+/**
+ * @param {string[]} words
+ * @param {number} maxWidth
+ * @return {string[]}
+ */
+function fullJustify(words, maxWidth) {
+  let justifiedText = [];
+
+  for (let start = 0; start < words.length; start++) {
+    const [end, lengthWithoutSpaces] = findEnd(start, maxWidth, words);
+    justifiedText.push(justify(start, end, lengthWithoutSpaces, words, maxWidth))
+    start = end;
   }
 
   return justifiedText;
