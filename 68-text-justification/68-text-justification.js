@@ -22,35 +22,34 @@ function padRight(str, maxWidth) {
 }
 
 function justify(start, end, lengthWithoutSpaces, words, maxWidth) {
-  
-    if (end == start) {
-      return padRight(words[end], maxWidth);
-    }
+  if (end == start) {
+    return padRight(words[end], maxWidth);
+  }
 
-    const numOfSpaces = end - start;
-    let totalSpace = maxWidth - lengthWithoutSpaces;
-    const isLastLine = end == words.length - 1;
+  const numOfSpaces = end - start;
+  let totalSpace = maxWidth - lengthWithoutSpaces;
+  const isLastLine = end == words.length - 1;
 
-    let justifiedLine = words[end];
+  let justifiedLine = words[end];
 
-    for (
-      let j = numOfSpaces, currentWordIndex = end - 1;
-      j >= 1, currentWordIndex >= start;
-      j--, currentWordIndex--
-    ) {
-      const numOfAssignedSpaces = Math.floor(totalSpace / j);
-      justifiedLine =
-        words[currentWordIndex] +
-        (isLastLine ? ' ' : generateSpaces(numOfAssignedSpaces)) +
-        justifiedLine;
-      totalSpace -= numOfAssignedSpaces;
-    }
+  for (
+    let j = numOfSpaces, currentWordIndex = end - 1;
+    j >= 1, currentWordIndex >= start;
+    j--, currentWordIndex--
+  ) {
+    const numOfAssignedSpaces = Math.floor(totalSpace / j);
+    justifiedLine =
+      words[currentWordIndex] +
+      (isLastLine ? ' ' : generateSpaces(numOfAssignedSpaces)) +
+      justifiedLine;
+    totalSpace -= numOfAssignedSpaces;
+  }
 
-    if (end == words.length - 1) {
-      justifiedLine += generateSpaces(maxWidth - justifiedLine.length);
-    }
+  if (end == words.length - 1) {
+    justifiedLine += generateSpaces(maxWidth - justifiedLine.length);
+  }
 
-    return justifiedLine;
+  return justifiedLine;
 }
 
 /**
@@ -63,7 +62,9 @@ function fullJustify(words, maxWidth) {
 
   for (let start = 0; start < words.length; start++) {
     const [end, lengthWithoutSpaces] = findEnd(start, maxWidth, words);
-    justifiedText.push(justify(start, end, lengthWithoutSpaces, words, maxWidth))
+    justifiedText.push(
+      justify(start, end, lengthWithoutSpaces, words, maxWidth)
+    );
     start = end;
   }
 
