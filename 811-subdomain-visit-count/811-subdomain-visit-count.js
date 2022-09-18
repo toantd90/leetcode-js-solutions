@@ -3,23 +3,32 @@
  * @return {string[]}
  */
 function subdomainVisits(cpdomains) {
-  let subDomainCnt = {}
+  let subdomainVisit = {}
+  
   for (let cpdomain of cpdomains) {
-    const [visitedTimes, domain] = cpdomain.split(' ')
-    const subDomains = domain.split('.')
-    let subDomain = subDomains[subDomains.length - 1]
-    subDomainCnt[subDomain] = (subDomainCnt[subDomain] || 0) + Number(visitedTimes)
+    // ['9001', 'discuss.leetcode.com']
+    const [strCount, domain] = cpdomain.split(' ')
+    // strCount = '9001'
+    // domain = 'dicuss.leetcode.com'
+    const count = Number(strCount)
+    // count = 9001 
+    const seperatedDomains = domain.split('.')
+    let currentSubdomain = ''
     
-    for (let i = subDomains.length - 2; i >= 0; i--) {
-      subDomain = subDomains[i] + '.' + subDomain
-      subDomainCnt[subDomain] = (subDomainCnt[subDomain] || 0) + Number(visitedTimes)
+    for (let i = seperatedDomains.length - 1; i >= 0; i--) {
+      currentSubdomain = seperatedDomains[i] + (currentSubdomain ? ('.' + currentSubdomain) : currentSubdomain)
+      
+      subdomainVisit[currentSubdomain] = (subdomainVisit[currentSubdomain] || 0) + count
     }
   }
   
-  let result = []
-  for (let subDomain in subDomainCnt) {
-    result.push(subDomainCnt[subDomain] + ' ' +subDomain)
+  let ans = []
+
+  for (let subdomain in subdomainVisit) {
+    // subdomain leetcode.com    
+    // subdomainVisit[subdomain] 9001
+    ans.push(subdomainVisit[subdomain] + ' ' + subdomain)
   }
   
-  return result
+  return ans
 };
