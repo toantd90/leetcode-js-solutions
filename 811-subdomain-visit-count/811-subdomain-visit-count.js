@@ -6,12 +6,9 @@ function subdomainVisits(cpdomains) {
   let subdomainVisit = {}
   
   for (let cpdomain of cpdomains) {
-    // ['9001', 'discuss.leetcode.com']
-    const [strCount, domain] = cpdomain.split(' ')
-    // strCount = '9001'
-    // domain = 'dicuss.leetcode.com'
-    const count = Number(strCount)
-    // count = 9001 
+    const spaceIndex = cpdomain.indexOf(' ')
+    const count = Number(cpdomain.substring(0, spaceIndex))
+    const domain = cpdomain.substring(spaceIndex + 1)
     const seperatedDomains = domain.split('.')
     let currentSubdomain = ''
     
@@ -25,8 +22,6 @@ function subdomainVisits(cpdomains) {
   let ans = []
 
   for (let subdomain in subdomainVisit) {
-    // subdomain leetcode.com    
-    // subdomainVisit[subdomain] 9001
     ans.push(subdomainVisit[subdomain] + ' ' + subdomain)
   }
   
