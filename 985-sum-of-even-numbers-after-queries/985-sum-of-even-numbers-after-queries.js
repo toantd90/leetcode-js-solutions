@@ -4,7 +4,13 @@
  * @return {number[]}
  */
 function sumEvenAfterQueries(nums, queries) {
-  let sumEven = nums.reduce((sum, num) => num % 2 == 0 ? sum + num : sum, 0)
+  let sumEven = 0
+  
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] % 2 == 0) {
+      sumEven += nums[i]
+    }
+  }
   let ans = []
   
   for (let [val, index] of queries) {
