@@ -11,10 +11,7 @@ function trap(height) {
   
   for (let i = 1; i < n; i++) {
     maxFromLeft[i] = Math.max(maxFromLeft[i - 1], height[i - 1])
-  }
-  
-  for (let i = n - 2; i >= 0; i--) {
-    maxFromRight[i] = Math.max(maxFromRight[i + 1], height[i + 1])
+    maxFromRight[n - 1 - i] = Math.max(maxFromRight[n - i], height[n - i])
   }
   
   for (let i = 1; i < n - 1; i++) {
