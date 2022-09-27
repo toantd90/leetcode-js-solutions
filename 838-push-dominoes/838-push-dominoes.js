@@ -13,8 +13,8 @@ function pushDominoes(dominoes) {
       lastRightIndex = i;
     } else if (dominoes[i] == '.') {
       if (finalStateDominoes[i - 1] == 'R') {
-        finalStateDominoes[i] = 'R'
-      };
+        finalStateDominoes[i] = 'R';
+      }
     } else {
       let startFillLeft = i;
       if (lastRightIndex == -1) {
