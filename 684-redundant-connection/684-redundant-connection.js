@@ -1,17 +1,34 @@
-function dfs(node, visited, graph, parent) {
-  if (visited[node]) {
+class DSU {
+  constructor(n) {
+    this.ranks = new Array(n + 1).fill(0)
+    this.parent = new Array(n + 1).fill().map((_, i) => i)
+  }
+  
+  findSet(u) {
+    if (this.parent[u] != u) {
+      this.parent[u] = this.findSet(this.parent[u])
+    }
+    
+    return this.parent[u]
+  }
+  
+  unionSet(u, v) {
+    const up = this.findSet(u)
+    const vp = this.findSet(v)
+    
+    if (up == vp) {
+      return false
+    } else if (this.ranks[up] > this.ranks[vp]) {
+      this.parent[vp] = up
+    } else if (this.ranks[vp] > this.ranks[up]) {
+      this.parent[up] = vp
+    } else {
+      this.parent[up] = vp
+      this.ranks[vp]++
+    }
+    
     return true
   }
-  
-  visited[node] = true
-  
-  for (let neighbour of graph[node]) {
-    if (neighbour !== parent && dfs(neighbour, visited, graph, node)) {
-      return true
-    }
-  }
-  
-  return false
 }
 
 /**
@@ -20,16 +37,12 @@ function dfs(node, visited, graph, parent) {
  */
 function findRedundantConnection(edges) {
   const n = edges.length
-  let graph = new Array(n + 1).fill().map(_ => new Array())
-
-  for (let [start, end] of edges) {
-    let visited = new Set()
-    
-    graph[start].push(end)
-    graph[end].push(start)
-    
-    if (dfs(start, visited, graph)) {
-      return [start, end]
+  
+  let dsu = new DSU(n)
+  
+  for (let [u, v] of edges) {
+    if (!dsu.unionSet(u, v)) {
+      return [u, v]
     }
   }
 };
