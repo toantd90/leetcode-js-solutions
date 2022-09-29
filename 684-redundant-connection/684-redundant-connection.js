@@ -1,7 +1,11 @@
 class DSU {
   constructor(n) {
-    this.ranks = new Array(n + 1).fill(0)
-    this.parent = new Array(n + 1).fill().map((_, i) => i)
+    this.ranks = []
+    this.parent = []
+    for (let i = 0; i < n + 1; i++) {
+      this.ranks[i] = 0
+      this.parent[i] = i
+    }
   }
   
   findSet(u) {
