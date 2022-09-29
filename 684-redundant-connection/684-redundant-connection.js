@@ -1,4 +1,4 @@
-function dfs(node, visited, graph, parent = -1) {
+function dfs(node, visited, graph, parent) {
   if (visited[node]) {
     return true
   }
