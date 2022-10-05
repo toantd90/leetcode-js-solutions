@@ -7,6 +7,7 @@ function addOneRow(root, val, depth) {
 
   const dfs = (node, d) => {
     if (!node) return;
+    if (d >= depth) return
     if (d === depth - 1) {
       const left = new TreeNode(val);
       const right = new TreeNode(val);
