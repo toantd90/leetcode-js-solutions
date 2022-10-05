@@ -1,20 +1,13 @@
 function addOneRow(root, val, depth) {
   if (depth === 1) {
-    const newNode = new TreeNode(val);
-    newNode.left = root;
-    return newNode;
+    return new TreeNode(val, root);
   }
 
   const dfs = (node, d) => {
     if (!node) return;
-    if (d >= depth) return
     if (d === depth - 1) {
-      const left = new TreeNode(val);
-      const right = new TreeNode(val);
-      left.left = node.left;
-      right.right = node.right;
-      node.left = left;
-      node.right = right;
+      node.left = new TreeNode(val, node.left);
+      node.right = new TreeNode(val, null, node.right);
       return;
     }
     dfs(node.left, d + 1);
