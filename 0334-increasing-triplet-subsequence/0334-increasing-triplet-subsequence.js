@@ -16,10 +16,7 @@ function increasingTriplet(nums) {
 
   for (let i = 2; i < n; i++) {
     minFromLeft[i] = Math.min(minFromLeft[i - 1], nums[i - 1]);
-    maxFromRight[n - i - 1] = Math.max(
-      maxFromRight[n - i],
-      nums[n - i]
-    );
+    maxFromRight[n - i - 1] = Math.max(maxFromRight[n - i], nums[n - i]);
   }
 
   for (let i = 1; i < n - 1; i++) {
