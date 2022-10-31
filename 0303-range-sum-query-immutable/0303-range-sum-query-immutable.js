@@ -1,27 +1,15 @@
-/**
- * @param {number[]} nums
- */
-var NumArray = function(nums) {
-  let prefixSum = [nums[0]]
-  
-  for (let i = 1; i < nums.length; i++) {
-    prefixSum[i] = prefixSum[i - 1] + nums[i]
+class NumArray {
+  constructor(nums) {
+    let sum = [0]
+    
+    nums.forEach(num => {
+      sum.push(sum[sum.length - 1] + num)
+    })
+    
+    this.sum = sum
   }
   
-  this.prefixSum = prefixSum
-};
-
-/** 
- * @param {number} left 
- * @param {number} right
- * @return {number}
- */
-NumArray.prototype.sumRange = function(left, right) {
-  return this.prefixSum[right] - (this.prefixSum[left - 1] || 0)
-};
-
-/** 
- * Your NumArray object will be instantiated and called as such:
- * var obj = new NumArray(nums)
- * var param_1 = obj.sumRange(left,right)
- */
+  sumRange(i, j) {
+    return this.sum[j + 1] - this.sum[i]
+  }
+}
