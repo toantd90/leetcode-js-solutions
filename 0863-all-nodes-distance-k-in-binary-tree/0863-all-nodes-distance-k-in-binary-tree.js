@@ -1,50 +1,67 @@
-var distanceK = function (root, target, k) {
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} target
+ * @param {number} k
+ * @return {number[]}
+ */
+function distanceK(root, target, k) {
   const parentsMap = findParent(root);
 
-  let currLevel = 0;
-  const q = [target];
-  const seen = new Set();
-  const ans = [];
+  let queue = [target];
+  let steps = 0;
+  let ans = [];
+  let seen = new Set();
 
-  while (q.length) {
-    let currSize = q.length;
+  while (queue.length) {
+    const size = queue.length;
 
-    for (let i = 0; i < currSize; i++) {
-      let curr = q[i];
-      if (seen.has(curr.val)) continue;
+    for (let i = 0; i < size; i++) {
+      let node = queue[i];
+      if (seen.has(node.val)) continue;
 
-      if (currLevel === k) {
-        ans.push(curr.val);
+      if (steps == k) {
+        ans.push(node.val);
         continue;
       }
 
-      seen.add(curr.val);
+      seen.add(node.val);
 
-      if (curr.left) q.push(curr.left);
-      if (curr.right) q.push(curr.right);
-      if (parentsMap[curr.val]) q.push(parentsMap[curr.val]);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+      if (parentsMap[node.val]) queue.push(parentsMap[node.val]);
     }
-    q.splice(0, currSize);
-    currLevel++;
+
+    queue.splice(0, size);
+
+    steps++;
   }
+
   return ans;
-};
+}
 
-const findParent = (root) => {
-  const parents = {};
+function dfs(node, parents) {
+  if (node.left) {
+    parents[node.left.val] = node;
+    dfs(node.left, parents);
+  }
 
-  const dfs = (root) => {
-    if (root.left) {
-      parents[root.left.val] = root;
-      dfs(root.left);
-    }
-    if (root.right) {
-      parents[root.right.val] = root;
-      dfs(root.right);
-    }
-    return;
-  };
+  if (node.right) {
+    parents[node.right.val] = node;
+    dfs(node.right, parents);
+  }
+}
 
-  dfs(root);
+function findParent(node) {
+  let parents = {};
+
+  dfs(node, parents);
+
   return parents;
-};
+}
