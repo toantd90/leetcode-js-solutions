@@ -4,13 +4,21 @@
  * @return {number}
  */
 function twoSumLessThanK(nums, k) {
+  nums.sort((n1, n2) => n1 - n2)
+  
+  let l = 0, r = nums.length - 1
+  
   let max = -1
-  for (let i = 0; i < nums.length; i++) {
-    for (let j = i + 1; j < nums.length; j++) {
-      const sum = nums[i] + nums[j]
-      if (sum < k && sum > max) {
+  
+  while (l < r) {
+    const sum = nums[l] + nums[r]
+    if (sum >= k) {
+      r--
+    } else {
+      if (sum > max) {
         max = sum
       }
+      l++
     }
   }
     
