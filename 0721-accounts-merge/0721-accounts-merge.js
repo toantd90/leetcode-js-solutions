@@ -47,9 +47,6 @@ function accountsMerge(accounts) {
     
     if (!visitedEmails.has(firstEmail)) {
       dfs(firstEmail, mergedEmails, visitedEmails, adjacencyList)
-    }
-    
-    if (mergedEmails.length > 0) {
       mergedEmails.sort()
       mergedAccounts.push([name, ...mergedEmails])
     }
