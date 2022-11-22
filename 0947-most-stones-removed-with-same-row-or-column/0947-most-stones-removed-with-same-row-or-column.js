@@ -1,82 +1,65 @@
-class UnionFind {
-  constructor(numOfSet) {
-    this.parents = [];
-    this.ranks = [];
-    this.numOfSet = numOfSet;
-
-    for (let i = 0; i < numOfSet; i++) {
-      this.parents[i] = i;
-      this.ranks[i] = 1;
-    }
-  }
-
-  findSet(index) {
-    if (this.parents[index] !== index) {
-      this.parents[index] = this.findSet(this.parents[index]);
-    }
-
-    return this.parents[index];
-  }
-
-  unionSet(index1, index2) {
-    const parent1 = this.findSet(index1);
-    const parent2 = this.findSet(index2);
-
-    if (parent1 === parent2) {
-      return;
-    }
-
-    this.numOfSet--;
-    if (this.ranks[parent1] > this.ranks[parent2]) {
-      this.parents[parent2] = parent1;
-    } else if (this.ranks[parent1] < this.ranks[parent2]) {
-      this.parents[parent1] = parent2;
-    } else {
-      this.parents[parent1] = parent2;
-      this.ranks[parent2]++;
-    }
-  }
-}
-
 /**
  * @param {number[][]} stones
  * @return {number}
  */
-function removeStones(stones) {
-  let cols = {};
-  let rows = {};
+var removeStones = function (stones) {
+  let subsetCount = stones.length;
+  const parentMap = [];
 
-  let unionFind = new UnionFind(stones.length);
-
+  // Initialize the parent map to give each stone it's own set
   for (let i = 0; i < stones.length; i++) {
-    const [row, col] = stones[i];
-
-    if (!rows[row]) {
-      rows[row] = [];
-    }
-    rows[row].push(i);
-
-    if (!cols[col]) {
-      cols[col] = [];
-    }
-    cols[col].push(i);
+    parentMap[i] = i;
   }
 
-  for (let [_, indexes] of Object.entries(rows)) {
-    const firstIndex = indexes[0];
+  for (let thisStonesIdx = 1; thisStonesIdx < stones.length; thisStonesIdx++) {
+    const thisStone = stones[thisStonesIdx];
 
-    for (let i = 1; i < indexes.length; i++) {
-      unionFind.unionSet(firstIndex, indexes[i]);
+    for (
+      let thatStonesIdx = 0;
+      thatStonesIdx < thisStonesIdx;
+      thatStonesIdx++
+    ) {
+      const thatStone = stones[thatStonesIdx];
+
+      // Not in the same row or column, skip ahead
+      if (thisStone[0] !== thatStone[0] && thisStone[1] !== thatStone[1])
+        continue;
+
+      // If this stone isn't already part of an existing subset
+      if (parentMap[thisStonesIdx] === thisStonesIdx) {
+        // Add it to that one's subset
+        parentMap[thisStonesIdx] = thatStonesIdx;
+        subsetCount -= 1;
+      } else {
+        // Find this stone's root
+        let currentThisStonesParentIndex = parentMap[thisStonesIdx];
+        while (
+          parentMap[currentThisStonesParentIndex] !==
+          currentThisStonesParentIndex
+        ) {
+          currentThisStonesParentIndex =
+            parentMap[currentThisStonesParentIndex];
+        }
+
+        // Find that stone's root
+        let currentThatStonesParentIndex = parentMap[thatStonesIdx];
+        while (
+          parentMap[currentThatStonesParentIndex] !==
+          currentThatStonesParentIndex
+        ) {
+          currentThatStonesParentIndex =
+            parentMap[currentThatStonesParentIndex];
+        }
+
+        // If they're not in the same subset, merge them
+        if (currentThisStonesParentIndex != currentThatStonesParentIndex) {
+          parentMap[currentThisStonesParentIndex] =
+            currentThatStonesParentIndex;
+          subsetCount -= 1;
+        }
+      }
     }
   }
 
-  for (let [_, indexes] of Object.entries(cols)) {
-    const firstIndex = indexes[0];
-
-    for (let i = 1; i < indexes.length; i++) {
-      unionFind.unionSet(firstIndex, indexes[i]);
-    }
-  }
-
-  return stones.length - unionFind.numOfSet;
+  return stones.length - subsetCount;
 };
