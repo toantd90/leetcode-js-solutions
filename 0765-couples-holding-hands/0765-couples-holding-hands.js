@@ -45,14 +45,13 @@ class UnionFind {
  * @return {number}
  */
 function minSwapsCouples(row) {
-  let unionFind = new UnionFind(row.length / 2)
-  
-  for (let i = 0; i < row.length; i+=2) {
-    const couple1 = Math.floor(row[i] / 2)
-    const couple2 = Math.floor(row[i + 1] / 2)
-    if (couple1 !== couple2)
-      unionFind.unionSet(couple1, couple2)
+  let unionFind = new UnionFind(row.length / 2);
+
+  for (let i = 0; i < row.length; i += 2) {
+    const couple1 = Math.floor(row[i] / 2);
+    const couple2 = Math.floor(row[i + 1] / 2);
+    if (couple1 !== couple2) unionFind.unionSet(couple1, couple2);
   }
-  
-  return row.length / 2 - unionFind.numOfSet
-};
+
+  return row.length / 2 - unionFind.numOfSet;
+}
