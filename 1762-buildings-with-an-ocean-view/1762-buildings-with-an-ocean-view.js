@@ -3,7 +3,7 @@
  * @return {number[]}
  */
 function findBuildings(heights) {
-  let stack = [0];
+  let stack = [];
 
   for (let i = 0; i < heights.length; i++) {
     while (stack.length > 0 && heights[stack[stack.length - 1]] <= heights[i]) {
