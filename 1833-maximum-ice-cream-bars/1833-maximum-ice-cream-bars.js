@@ -5,13 +5,13 @@
  */
 function maxIceCream(costs, coins) {
   costs.sort((c1, c2) => c1 - c2);
-  
-  let numOfIcecream = 0
-  let costSoFar = 0
-  while (costSoFar + costs[numOfIcecream] <= coins) {
-    costSoFar += costs[numOfIcecream]
-    numOfIcecream++
+
+  let numOfIceCream = 0;
+  let costSoFar = 0;
+  while (costSoFar + costs[numOfIceCream] <= coins) {
+    costSoFar += costs[numOfIceCream];
+    numOfIceCream++;
   }
-  
-  return numOfIcecream
-};
+
+  return numOfIceCream;
+}
