@@ -14,12 +14,11 @@ var DataStream = function (value, k) {
  */
 DataStream.prototype.consec = function (num) {
   let currentCount = 1;
-  if (!this.lastStream || this.lastStream[0] !== num) {
-    this.lastStream = [num, 1];
-  } else {
+  if (this.lastStream && this.lastStream[0] === num) {
     currentCount = this.lastStream[1] + 1;
-    this.lastStream = [num, currentCount];
   }
+
+  this.lastStream = [num, currentCount];
 
   return num == this.value && currentCount >= this.k;
 };
