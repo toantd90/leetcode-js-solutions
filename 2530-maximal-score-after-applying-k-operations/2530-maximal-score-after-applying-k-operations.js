@@ -4,7 +4,7 @@
  * @return {number}
  */
 function maxKelements(nums, k) {
-  let maxHeap = new MaxPriorityQueue({ priority: (num) => num });
+  let maxHeap = new MaxPriorityQueue();
 
   let score = 0;
 
