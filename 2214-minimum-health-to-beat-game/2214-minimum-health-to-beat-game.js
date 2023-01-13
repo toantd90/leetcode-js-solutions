@@ -4,13 +4,13 @@
  * @return {number}
  */
 function minimumHealth(damage, armor) {
-  let health = 1;
-  let maxDamage = 0;
+  let safeDamage = 0;
+  let health = 0;
 
-  for (let damageAtLevel of damage) {
-    health += damageAtLevel;
-    maxDamage = Math.max(maxDamage, damageAtLevel);
+  for (let d of damage) {
+    safeDamage = Math.max(safeDamage, Math.min(d, armor));
+    health += d;
   }
 
-  return health - Math.min(maxDamage, armor);
+  return health - safeDamage + 1;
 }
