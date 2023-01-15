@@ -47,7 +47,7 @@ function smallestEquivalentString(s1, s2, baseStr) {
   for (let i = 0; i < n; i++) {
     unionFind.unionSet(s1.charCodeAt(i) - 97, s2.charCodeAt(i) - 97);
   }
-  
+
   let ans = '';
   for (let i = 0; i < baseStr.length; i++) {
     ans += String.fromCharCode(
