@@ -14,5 +14,5 @@ function maximumCount(nums) {
     j++;
   }
 
-  return Math.max(i, nums.length - i - (j - i));
+  return Math.max(i, nums.length - j);
 }
