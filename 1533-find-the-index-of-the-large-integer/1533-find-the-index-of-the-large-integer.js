@@ -33,13 +33,7 @@ function getIndex(reader) {
   while (start < end) {
     const numOfInt = end - start + 1;
     const endFirstHalf = start + Math.floor(numOfInt / 2) - 1;
-    let startSecondHalf = start;
-
-    if (numOfInt % 2 === 0) {
-      startSecondHalf += numOfInt / 2;
-    } else {
-      startSecondHalf += Math.floor(numOfInt / 2) + 1;
-    }
+    let startSecondHalf = start + Math.floor(numOfInt / 2) + (numOfInt % 2);
 
     const compare = reader.compareSub(
       start,
