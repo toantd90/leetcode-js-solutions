@@ -32,34 +32,28 @@ function getIndex(reader) {
 
   while (start < end) {
     const numOfInt = end - start + 1;
+    const endFirstHalf = start + Math.floor(numOfInt / 2) - 1;
+    let startSecondHalf = start;
+
     if (numOfInt % 2 === 0) {
-      const compare = reader.compareSub(
-        start,
-        start + numOfInt / 2 - 1,
-        start + numOfInt / 2,
-        end
-      );
-
-      if (compare == 1) {
-        end = start + numOfInt / 2 - 1;
-      } else {
-        start += numOfInt / 2;
-      }
+      startSecondHalf += numOfInt / 2;
     } else {
-      const compare = reader.compareSub(
-        start,
-        start + Math.floor(numOfInt / 2) - 1,
-        start + Math.floor(numOfInt / 2) + 1,
-        end
-      );
+      startSecondHalf += Math.floor(numOfInt / 2) + 1;
+    }
 
-      if (compare == 1) {
-        end = start + Math.floor(numOfInt / 2) - 1;
-      } else if (compare == -1) {
-        start += Math.floor(numOfInt / 2) + 1;
-      } else {
-        return start + Math.floor(numOfInt / 2);
-      }
+    const compare = reader.compareSub(
+      start,
+      endFirstHalf,
+      startSecondHalf,
+      end
+    );
+
+    if (compare == 1) {
+      end = endFirstHalf;
+    } else if (compare == -1) {
+      start = startSecondHalf;
+    } else {
+      return start + Math.floor(numOfInt / 2);
     }
   }
 
