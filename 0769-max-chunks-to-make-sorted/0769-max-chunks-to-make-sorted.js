@@ -3,16 +3,16 @@
  * @return {number}
  */
 function maxChunksToSorted(arr) {
-  let max = 0
-  let count = 0
-  
+  let max = 0;
+  let count = 0;
+
   for (let i = 0; i < arr.length; i++) {
-    max = Math.max(max, arr[i])
-    
+    max = Math.max(max, arr[i]);
+
     if (max === i) {
-      count++
+      count++;
     }
   }
-  
-  return count
-};
+
+  return count;
+}
