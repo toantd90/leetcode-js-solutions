@@ -8,8 +8,6 @@ function numberOfWeakCharacters(properties) {
   let weakCharacters = 0;
   let maxDefense = 0;
 
-  console.log(properties);
-
   for (let i = properties.length - 1; i >= 0; i--) {
     if (properties[i][1] < maxDefense) {
       weakCharacters++;
