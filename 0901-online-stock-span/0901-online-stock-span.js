@@ -20,7 +20,7 @@ StockSpanner.prototype.next = function (price) {
 
   return this.stack.length === 1
     ? this.stocks.length
-    : this.stack[this.stack.length - 1] - (this.stack[this.stack.length - 2] || 0);
+    : this.stack[this.stack.length - 1] - this.stack[this.stack.length - 2];
 };
 
 /**
