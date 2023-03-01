@@ -6,9 +6,9 @@ function wordSearchByIndex(wordsMap, s, currentIndex, memo) {
   if (!wordsMap[s[currentIndex]]) {
     return false;
   }
-  
+
   if (memo[currentIndex] !== null) {
-    return memo[currentIndex]
+    return memo[currentIndex];
   }
 
   for (let nextWord of wordsMap[s[currentIndex]]) {
@@ -16,11 +16,11 @@ function wordSearchByIndex(wordsMap, s, currentIndex, memo) {
       nextWord === s.slice(currentIndex, currentIndex + nextWord.length) &&
       wordSearchByIndex(wordsMap, s, currentIndex + nextWord.length, memo)
     ) {
-      return memo[currentIndex] = true;
+      return (memo[currentIndex] = true);
     }
   }
 
-  return memo[currentIndex] = false;
+  return (memo[currentIndex] = false);
 }
 
 /**
@@ -41,8 +41,8 @@ function wordBreak(s, wordDict) {
   if (!wordsMapByFirstLetter[s[0]]) {
     return false;
   }
-  
-  let memo = new Array(s.length).fill(null)
+
+  let memo = new Array(s.length).fill(null);
 
   return wordSearchByIndex(wordsMapByFirstLetter, s, 0, memo);
 }
