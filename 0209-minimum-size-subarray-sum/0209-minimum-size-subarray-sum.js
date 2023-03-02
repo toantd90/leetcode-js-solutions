@@ -10,17 +10,14 @@ function minSubArrayLen(target, nums) {
   let minLength = nums.length + 1;
 
   while (right < nums.length) {
-    while (sum < target) {
-      sum += nums[right++];
-    }
-
-    minLength = Math.min(minLength, right - left);
+    sum += nums[right++];
 
     while (sum >= target) {
       sum -= nums[left++];
+      minLength = Math.min(minLength, right - left + 1);
     }
     
-    minLength = Math.min(minLength, right - left + 1);
+    
   }
 
   return minLength === nums.length + 1 ? 0 : minLength;
