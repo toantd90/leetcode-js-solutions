@@ -1,28 +1,22 @@
-function calculate(nums, target, sum, index, memo) {
+function calculate(nums, remain, index, memo) {
   if (index === nums.length) {
-    if (sum === target) {
+    if (remain === 0) {
       return 1;
     } else {
       return 0;
     }
   }
 
-  if (memo[index][sum]) {
-    return memo[index][sum];
+  if (memo[index][remain]) {
+    return memo[index][remain];
   }
 
-  const addition = calculate(nums, target, sum + nums[index], index + 1, memo);
-  const subtraction = calculate(
-    nums,
-    target,
-    sum - nums[index],
-    index + 1,
-    memo
-  );
+  const addition = calculate(nums, remain + nums[index], index + 1, memo);
+  const subtraction = calculate(nums, remain - nums[index], index + 1, memo);
 
-  memo[index][sum] = addition + subtraction;
+  memo[index][remain] = addition + subtraction;
 
-  return memo[index][sum];
+  return memo[index][remain];
 }
 
 /**
@@ -31,7 +25,9 @@ function calculate(nums, target, sum, index, memo) {
  * @return {number}
  */
 function findTargetSumWays(nums, target) {
-  let memo = new Array(nums.length).fill().map((_) => ({}));
+  let memo = new Array(nums.length)
+    .fill()
+    .map((_) => new Array(2 * Math.abs(target) + 1));
 
-  return calculate(nums, target, 0, 0, memo);
+  return calculate(nums, target, 0, memo);
 }
