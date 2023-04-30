@@ -15,16 +15,14 @@ function findThePrefixCommonArray(A, B) {
 
     if (A[i] === B[i]) {
       currentCommon++;
-      ans.push(currentCommon);
-      continue;
-    }
+    } else {
+      if (countA[B[i]] > 0) {
+        currentCommon++;
+      }
 
-    if (countA[B[i]] > 0) {
-      currentCommon++;
-    }
-
-    if (countB[A[i]] > 0) {
-      currentCommon++;
+      if (countB[A[i]] > 0) {
+        currentCommon++;
+      }
     }
 
     ans.push(currentCommon);
