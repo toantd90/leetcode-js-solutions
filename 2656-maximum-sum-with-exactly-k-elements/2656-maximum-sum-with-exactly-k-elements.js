@@ -4,7 +4,11 @@
  * @return {number}
  */
 function maximizeSum(nums, k) {
-  nums.sort((n1, n2) => n1 - n2);
+  let max = 0;
 
-  return nums[nums.length - 1] * k + (k * (k - 1)) / 2;
+  for (let num of nums) {
+    max = Math.max(max, num);
+  }
+
+  return max * k + (k * (k - 1)) / 2;
 }
