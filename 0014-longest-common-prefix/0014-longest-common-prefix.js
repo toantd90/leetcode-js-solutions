@@ -23,5 +23,3 @@ function longestCommonPrefix(strs) {
 
   return longestPrefix;
 }
-
-longestCommonPrefix(["ab", "a"]);
