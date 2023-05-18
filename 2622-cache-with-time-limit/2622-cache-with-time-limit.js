@@ -1,7 +1,6 @@
-var TimeLimitedCache = function () {
-  this.cache = {};
-  this.countKeys = 0;
-};
+function TimeLimitedCache() {
+  this.cache = new Map();
+}
 
 /**
  * @param {number} key
@@ -10,24 +9,17 @@ var TimeLimitedCache = function () {
  * @return {boolean} if un-expired key already existed
  */
 TimeLimitedCache.prototype.set = function (key, value, duration) {
-  let isExist = false;
-  if (this.cache[key] !== undefined) {
-    clearTimeout(this.cache[key].timeoutId);
-    this.countKeys--;
-    isExist = true;
-  } else {
-    this.cache[key] = {};
+  const valueInCache = this.cache.get(key);
+
+  if (valueInCache) {
+    clearTimeout(valueInCache.timeoutId);
   }
-  this.cache[key].value = value;
-  this.countKeys++;
 
-  let timeoutId = setTimeout(() => {
-    this.cache[key] = -1;
-    this.countKeys--;
-  }, duration);
+  const timeoutId = setTimeout(() => this.cache.delete(key), duration);
 
-  this.cache[key].timeoutId = timeoutId;
-  return isExist;
+  this.cache.set(key, { value, timeoutId });
+
+  return Boolean(valueInCache);
 };
 
 /**
@@ -35,14 +27,14 @@ TimeLimitedCache.prototype.set = function (key, value, duration) {
  * @return {number} value associated with key
  */
 TimeLimitedCache.prototype.get = function (key) {
-  return this.cache[key]?.value || -1;
+  return this.cache.get(key)?.value || -1;
 };
 
 /**
  * @return {number} count of non-expired keys
  */
 TimeLimitedCache.prototype.count = function () {
-  return this.countKeys;
+  return this.cache.size;
 };
 
 /**
