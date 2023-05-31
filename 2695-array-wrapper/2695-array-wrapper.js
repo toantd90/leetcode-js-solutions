@@ -3,19 +3,21 @@
  */
 var ArrayWrapper = function (nums) {
   this.nums = nums;
-};
-
-ArrayWrapper.prototype.valueOf = function () {
   let value = 0;
   for (let num of this.nums) {
     value += num;
   }
 
-  return value;
+  this.value = value;
+  this.str = "[" + this.nums.toString() + "]";
+};
+
+ArrayWrapper.prototype.valueOf = function () {
+  return this.value;
 };
 
 ArrayWrapper.prototype.toString = function () {
-  return "[" + this.nums.toString() + "]";
+  return this.str;
 };
 
 /**
