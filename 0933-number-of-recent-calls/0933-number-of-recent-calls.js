@@ -9,12 +9,9 @@ var RecentCounter = function () {
 RecentCounter.prototype.ping = function (t) {
   this.stream.push(t);
 
-  let i = 0;
-  while (this.stream[i] < t - 3000) {
-    i++;
+  while (this.stream[0] < t - 3000) {
+    this.stream.shift()
   }
-
-  this.stream = this.stream.splice(i);
 
   return this.stream.length;
 };
