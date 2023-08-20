@@ -15,9 +15,7 @@ function minimumSum(n, k) {
     nums.add(num);
     num++;
   }
-  
-  console.log(nums)
-  
+
   if (nums.size < n) {
     sum += ((k + (k + n - nums.size + 1)) * (n - nums.size)) / 2;
   }
