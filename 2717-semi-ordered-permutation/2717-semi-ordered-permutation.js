@@ -3,20 +3,10 @@
  * @return {number}
  */
 function semiOrderedPermutation(nums) {
-  let smallestIndex = 0;
-  let largestIndex = 0;
+  const maximum = nums.indexOf(Math.max(...nums));
+  const minimum = nums.indexOf(Math.min(...nums));
 
-  for (let i = 1; i < nums.length; i++) {
-    if (nums[i] < nums[smallestIndex]) {
-      smallestIndex = i;
-    }
-
-    if (nums[i] > nums[largestIndex]) {
-      largestIndex = i;
-    }
-  }
-
-  const moves = smallestIndex + nums.length - 1 - largestIndex;
-
-  return smallestIndex > largestIndex ? moves - 1 : moves;
+  return maximum < minimum
+    ? nums.length - 1 - maximum + minimum - 1
+    : nums.length - 1 - maximum + minimum;
 }
