@@ -5,18 +5,18 @@
 function projectionArea(grid) {
   const n = grid.length;
   let area = 0;
-  let maxCols = new Array(n).fill(0);
 
   for (let i = 0; i < n; i++) {
     let maxRow = 0;
+    let maxCol = 0
     for (let j = 0; j < n; j++) {
       maxRow = Math.max(maxRow, grid[i][j]);
-      maxCols[j] = Math.max(maxCols[j], grid[i][j]);
+      maxCol = Math.max(maxCol, grid[j][i])
       if (grid[i][j] !== 0) area++;
     }
 
-    area += maxRow;
+    area += maxRow + maxCol;
   }
 
-  return area + maxCols.reduce((acc, cur) => acc + cur, 0);
+  return area;
 }
