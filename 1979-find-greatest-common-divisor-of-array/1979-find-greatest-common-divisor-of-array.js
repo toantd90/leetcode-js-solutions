@@ -1,23 +1,7 @@
-/**
- * @param {number[]} nums
- * @return {number}
- */
-function findGCD(nums) {
-  let min = 1000;
-  let max = 1;
+const gcd = (a, b) => (b == 0 ? a : gcd(b, a % b));
 
-  for (let i = 0; i < nums.length; i++) {
-    min = Math.min(min, nums[i]);
-    max = Math.max(max, nums[i]);
-  }
-
-  if (max % min === 0) return min;
-  
-  for (let i = Math.floor(max / 2); i > 1; i--) {
-    if (max % i === 0 && min % i === 0) {
-      return i;
-    }
-  }
-
-  return 1;
-}
+const findGCD = (a) => {
+  let max = Math.max.apply(Math, a);
+  let min = Math.min.apply(Math, a);
+  return gcd(min, max);
+};
