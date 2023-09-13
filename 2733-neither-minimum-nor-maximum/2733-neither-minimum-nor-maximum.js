@@ -3,21 +3,11 @@
  * @return {number}
  */
 function findNonMinOrMax(nums) {
-  let min = nums[0];
-  let max = nums[0];
+  let min = Math.min(nums[0], nums[1], nums[2]);
+  let max = Math.max(nums[0], nums[1], nums[2]);
 
-  for (let i = 1; i < nums.length; i++) {
-    if (nums[i] > max) {
-      max = nums[i];
-    }
-
-    if (nums[i] < min) {
-      min = nums[i];
-    }
-  }
-
-  for (let i = 0; i < nums.length; i++) {
-    if (nums[i] !== min && nums[i] !== max) {
+  for (let i = 0; i < 3; i++) {
+    if (nums[i] < max && nums[i] > min) {
       return nums[i];
     }
   }
