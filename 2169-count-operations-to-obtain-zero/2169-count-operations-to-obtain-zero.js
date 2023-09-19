@@ -4,15 +4,16 @@
  * @return {number}
  */
 function countOperations(num1, num2) {
-  let operations = 0
-  while (num1 !== 0 && num2 !== 0) {
+  let operations = 0;
+  while (num1 * num2 !== 0) {
     if (num1 > num2) {
-      num1 -= num2
+      operations += Math.floor(num1 / num2);
+      num1 = num1 % num2;
     } else {
-      num2 -= num1
+      operations += Math.floor(num2 / num1);
+      num2 = num2 % num1;
     }
-    operations++
   }
-  
-  return operations
-};
+
+  return operations;
+}
