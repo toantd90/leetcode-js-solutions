@@ -7,13 +7,15 @@ function sortArrayByParity(nums) {
   let r = nums.length - 1;
   while (l < r) {
     if (nums[l] % 2 === 1 && nums[r] % 2 === 0) {
-      [nums[l], nums[r]] = [nums[r], nums[l]]
+      [nums[l], nums[r]] = [nums[r], nums[l]];
     } else if (nums[l] % 2 === 0) {
-      l++
+      l++;
     } else if (nums[r] % 2 === 1) {
-      r--
+      r--;
+    } else {
+      continue;
     }
   }
-  
-  return nums
-};
+
+  return nums;
+}
