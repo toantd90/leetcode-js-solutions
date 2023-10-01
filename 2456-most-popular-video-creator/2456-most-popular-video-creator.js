@@ -1,46 +1,28 @@
-/**
- * @param {string[]} creators
- * @param {string[]} ids
- * @param {number[]} views
- * @return {string[][]}
- */
 function mostPopularCreator(creators, ids, views) {
-  let highestPopularityMap = {};
-  const numOfVideos = views.length;
-  let highestTotalView = 0;
-  let topCreators = new Set();
+  let mostPop = 0;
 
-  for (let i = 0; i < numOfVideos; i++) {
-    const creator = creators[i];
-    const videoId = ids[i];
-    const view = views[i];
+  let map = creators.reduce((map, creator, i) => {
+    let [curId, curViews] = [ids[i], views[i]];
 
-    if (!highestPopularityMap[creator]) {
-      highestPopularityMap[creator] = {
-        totalView: 0,
-        videos: new PriorityQueue({
-          compare: (v1, v2) => {
-            if (v1.view > v2.view) return -1; // do not swap
-            if (v1.view < v2.view) return 1; // swap
+    if (map.has(creator)) {
+      let user = map.get(creator);
+      user.pop += curViews;
+      mostPop = Math.max(user.pop, mostPop);
 
-            return v1.videoId < v2.videoId ? -1 : 1;
-          },
-        }),
-      };
+      if (curViews > user.bestVid[1]) user.bestVid = [curId, curViews];
+      else if (curViews == user.bestVid[1] && curId < user.bestVid[0])
+        user.bestVid[0] = curId;
+    } else {
+      map.set(creator, { pop: curViews, bestVid: [curId, curViews] });
+      mostPop = Math.max(curViews, mostPop);
     }
-    highestPopularityMap[creator].totalView += view;
-    highestPopularityMap[creator].videos.enqueue({ videoId, view });
 
-    if (highestPopularityMap[creator].totalView > highestTotalView) {
-      topCreators = new Set();
-      topCreators.add(creator);
-      highestTotalView = highestPopularityMap[creator].totalView;
-    } else if (highestPopularityMap[creator].totalView === highestTotalView) {
-      topCreators.add(creator);
-    }
-  }
+    return map;
+  }, new Map());
 
-  return Array.from(topCreators).map((creator) => {
-    return [creator, highestPopularityMap[creator].videos.dequeue().videoId];
-  });
+  return [...map.entries()].reduce((res, creator) => {
+    if (creator[1].pop == mostPop)
+      res.push([creator[0], creator[1].bestVid[0]]);
+    return res;
+  }, []);
 }
