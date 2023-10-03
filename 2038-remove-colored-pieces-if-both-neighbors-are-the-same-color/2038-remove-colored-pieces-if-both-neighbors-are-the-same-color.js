@@ -3,26 +3,19 @@
  * @return {boolean}
  */
 function winnerOfGame(colors) {
-  let aTurn = 0;
-  let bTurn = 0;
-  for (let i = 0; i < colors.length; i++) {
-    let j = i;
-    while (j < colors.length && colors[j] === "A") {
-      j++;
+  let a = 0;
+  let b = 0;
+
+  for (let i = 2; i < colors.length; i++) {
+    if (colors[i - 2] === "A" && colors[i - 1] === "A" && colors[i] === "A") {
+      a++;
+    } else if (
+      colors[i - 2] === "B" &&
+      colors[i - 1] === "B" &&
+      colors[i] === "B"
+    ) {
+      b++;
     }
-
-    aTurn += j - i > 2 ? j - i - 2 : 0;
-
-    i = j;
-
-    while (j < colors.length && colors[j] === "B") {
-      j++;
-    }
-
-    bTurn += j - i > 2 ? j - i - 2 : 0;
-
-    i = j - 1;
   }
-  
-  return aTurn > bTurn;
+  return a > b;
 }
