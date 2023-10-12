@@ -4,10 +4,17 @@
  * @return {number}
  */
 function countPairs(nums, target) {
+  nums.sort((n1, n2) => n1 - n2);
   let cnt = 0;
-  for (let i = 0; i < nums.length; i++) {
-    for (let j = i + 1; j < nums.length; j++) {
-      if (nums[i] + nums[j] < target) cnt++;
+  let l = 0;
+  let r = nums.length - 1;
+
+  while (l < r) {
+    if (nums[l] + nums[r] >= target) {
+      r--;
+    } else {
+      cnt += r - l;
+      l++;
     }
   }
 
