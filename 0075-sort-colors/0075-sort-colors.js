@@ -1,6 +1,6 @@
 function sortTwoColors(nums, color, startIndex) {
   let l = startIndex;
-  let r = nums.length;
+  let r = nums.length - 1;
 
   while (l <= r) {
     if (nums[l] === color) {
