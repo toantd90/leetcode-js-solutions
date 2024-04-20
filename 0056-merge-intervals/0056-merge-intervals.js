@@ -3,23 +3,38 @@
  * @return {number[][]}
  */
 function merge(intervals) {
-  intervals.sort(([start1, end1], [start2, end2]) => start1 - start2);
+  intervals.sort((interval1, interval2) => {
+    const [start1, end1] = interval1;
+    const [start2, end2] = interval2;
+
+    if (start1 < start2) {
+      return -1;
+    } else if (start1 > start2) {
+      return 1;
+    } else {
+      if (end1 < end2) {
+        return -1;
+      } else {
+        return 1;
+      }
+    }
+  });
+
+  let i = 0;
   let mergedIntervals = [];
 
-  for (let i = 0; i < intervals.length; i++) {
-    let j = i;
-    let mergedInterval = intervals[i];
-
+  while (i < intervals.length) {
+    let currentInterval = intervals[i];
     while (
-      j <= intervals.length - 2 &&
-      intervals[j + 1][0] <= mergedInterval[1]
+      intervals[i + 1] &&
+      intervals[i + 1][0] >= currentInterval[0] &&
+      intervals[i + 1][0] <= currentInterval[1]
     ) {
-      mergedInterval[1] = Math.max(mergedInterval[1], intervals[j + 1][1]);
-      j++;
+      currentInterval[1] = Math.max(currentInterval[1], intervals[i + 1][1]);
+      i++;
     }
-    i = j;
-
-    mergedIntervals.push(mergedInterval);
+    mergedIntervals.push(currentInterval);
+    i++;
   }
 
   return mergedIntervals;
