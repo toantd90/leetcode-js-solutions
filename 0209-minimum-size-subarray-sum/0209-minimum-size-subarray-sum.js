@@ -4,21 +4,26 @@
  * @return {number}
  */
 function minSubArrayLen(target, nums) {
-  let left = 0;
-  let right = 0;
-  let sum = 0;
-  let minLength = nums.length + 1;
+    let l = 0;
+    let r = 0;
+    const n = nums.length;
+    let sum = 0;
+    let min = n + 1;
 
-  while (right < nums.length) {
-    sum += nums[right++];
+    while (r < n) {
+        sum += nums[r];
 
-    while (sum >= target) {
-      sum -= nums[left++];
-      minLength = Math.min(minLength, right - left + 1);
+        while (sum - nums[l] >= target) {
+            sum -= nums[l];
+            l++;
+        }
+
+        if (sum >= target) {
+            min = Math.min(min, r - l + 1);
+        }
+
+        r++;
     }
-    
-    
-  }
 
-  return minLength === nums.length + 1 ? 0 : minLength;
-}
+    return min === n + 1 ? 0 : min
+};
