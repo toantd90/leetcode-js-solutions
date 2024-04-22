@@ -3,21 +3,22 @@
  * @return {number[]}
  */
 function productExceptSelf(nums) {
-  let zeroCount = 0;
-  let productAll = 1;
-  for (let i = 0; i < nums.length; i++) {
-    if (nums[i] === 0) {
-      zeroCount++;
-    } else {
-      productAll *= nums[i];
+    let product = 1;
+    let zeroCount = 0
+
+    for (let num of nums) {
+        if (num === 0) {
+            zeroCount++
+        } else {
+            product *= num;
+        }
     }
-  }
 
-  if (zeroCount > 1) {
-    return new Array(nums.length).fill(0);
-  }
-
-  return nums.map((num) =>
-    num === 0 ? productAll : zeroCount === 1 ? 0 : productAll / num
-  );
-}
+    if (zeroCount > 1) {
+        return new Array(nums.length).fill(0);
+    } else if (zeroCount === 1) {
+        return nums.map(num => num === 0 ? product : 0);
+    } else {
+        return nums.map(num => product / num);
+    }
+};
