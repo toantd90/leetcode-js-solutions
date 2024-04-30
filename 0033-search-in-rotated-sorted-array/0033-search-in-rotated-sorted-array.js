@@ -4,15 +4,15 @@
  * @return {number}
  */
 function search(nums, target) {
+    const n = nums.length;
     let l = 0;
-    let r = nums.length - 1;
+    let r = n - 1;
 
     while (l <= r) {
         const mid = l + Math.floor((r - l) / 2);
-
         if (nums[mid] === target) {
             return mid;
-        } else if (nums[l] <= nums[mid]) {
+        } else if (nums[mid] >= nums[l]) {
             if (nums[l] <= target && target < nums[mid]) {
                 r = mid - 1;
             } else {
