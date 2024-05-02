@@ -3,23 +3,20 @@
  * @return {number}
  */
 function findMaxK(nums) {
-  let maxK = -1;
-  let numMap = {};
-  for (let num of nums) {
-    numMap[num] = true;
+    let max = -1001;
 
-    if (num < 0) {
-      const positiveNum = Math.abs(num);
+    let map = new Map();
 
-      if (numMap[positiveNum] && positiveNum > maxK) {
-        maxK = positiveNum;
-      }
-    } else {
-      if (numMap[-num] && num > maxK) {
-        maxK = num;
-      }
+    for (let num of nums) {
+        if (map.get(-num)) {
+            max = Math.max(max, num, -num);
+        }
+        map.set(num, true);
     }
-  }
 
-  return maxK;
-}
+    if (max === -1001) {
+        return -1;
+    }
+
+    return max;
+};
