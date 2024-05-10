@@ -14,7 +14,8 @@ function maximumHappinessSum(happiness, k) {
     let maxHappiness = 0;
     while (turns > 0) {
         const increaseHappiness = heap.dequeue().element - (k - turns);
-        maxHappiness += Math.max(0, increaseHappiness);
+        if (increaseHappiness <= 0) break;
+        maxHappiness += increaseHappiness;
         turns--;
     }
 
