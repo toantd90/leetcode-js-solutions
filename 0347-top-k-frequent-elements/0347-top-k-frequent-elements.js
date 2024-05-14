@@ -4,17 +4,15 @@
  * @return {number[]}
  */
 function topKFrequent(nums, k) {
-    let countMap = new Map();
+  let count = new Map();
 
-    for (let num of nums) {
-        countMap.set(num, {
-            num,
-            frequent: (countMap.get(num)?.frequent || 0) + 1,
-        });
-    }
+  for (let num of nums) {
+    count.set(num, (count.get(num) || 0) + 1);
+  }
 
-    return Array.from(countMap.values())
-        .sort((count1, count2) => count2.frequent - count1.frequent)
-        .slice(0, k)
-        .map((count) => count.num);
+  return Array.from(count.entries())
+    .map(([key, value]) => [key, value])
+    .sort((count1, count2) => count2[1] - count1[1])
+    .slice(0, k)
+    .map((count) => count[0]);
 }
