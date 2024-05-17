@@ -2,23 +2,43 @@
  * @param {string} s
  * @return {number}
  */
-function lengthOfLongestSubstring(s) {
-  if (s.length == 0) return 0;
-  let longestLength = 1;
-  let l = 0;
-  let r = 1;
-  let subString = new Set();
-  subString.add(s[0]);
+// var lengthOfLongestSubstring = function(s) {
+//   let left = 0;
+//   let counts = {};
+//   let longest = 0;
+  
+//   for (let right = 0; right < s.length;) {
+//     counts[s[right]] = (counts[s[right]] || 0) + 1;
+    
+//     if (Object.values(counts).some(el => el > 1)) {
+//       counts[s[left]]--;
+//       left++;
+//     }
+    
+//     longest = Math.max(longest, right - left + 1);
+//     right++;
+//   }
+  
+//   return longest;
+// };
 
-  while (r < s.length) {
-    while (subString.has(s[r])) {
-      subString.delete(s[l]);
-      l++;
+var lengthOfLongestSubstring = function(s) {
+  let left = 0;
+  let right = 0;
+  let chars = new Array(128).fill(false);
+  let longest = 0;
+  
+  while (right < s.length) {
+    if (!chars[s.charCodeAt(right)]) {
+      longest = Math.max(longest, right - left + 1);
+      chars[s.charCodeAt(right)] = true;
+    } else {
+      if (s[left] !== s[right])
+        chars[s.charCodeAt(left)] = false;
+      left++;
     }
-    subString.add(s[r]);
-    longestLength = Math.max(longestLength, r - l + 1);
-    r++;
+    right++;
   }
-
-  return longestLength;
+  
+  return longest;
 }
