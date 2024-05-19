@@ -1,26 +1,34 @@
+const operators = {
+  "+": function (a, b) {
+    return a + b;
+  },
+  "-": function (a, b) {
+    return a - b;
+  },
+  "*": function (a, b) {
+    return a * b;
+  },
+  "/": function (a, b) {
+    return Math.trunc(a / b);
+  },
+};
+
 /**
  * @param {string[]} tokens
  * @return {number}
  */
-function evalRPN(tokens) {
-    let stack = []
-
-    for (let token of tokens) {
-        if (!isNaN(token)) {
-            stack.push(Number(token))
-        } else {
-            console.log(stack)
-            if (token === '+') {
-                stack.push(stack.pop() + stack.pop());
-            } else if (token === '-') {
-                stack.push(- stack.pop() + stack.pop());
-            } else if (token === '/') {
-                stack.push(Math.trunc(1 / stack.pop() * stack.pop()));
-            } else {
-                stack.push(stack.pop() * stack.pop());
-            }
-        }
+var evalRPN = function (tokens) {
+  let stack = [];
+  for (let token of tokens) {
+    if (operators[token]) {
+      const num2 = stack.pop();
+      const num1 = stack.pop();
+      const res = operators[token](num1, num2);
+      stack.push(Number(res));
+    } else {
+      stack.push(Number(token));
     }
+  }
 
-    return stack[0];
+  return stack.pop();
 };
