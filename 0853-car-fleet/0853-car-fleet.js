@@ -4,27 +4,23 @@
  * @param {number[]} speed
  * @return {number}
  */
-function carFleet(target, position, speed) {
-  const numOfCar = position.length;
-  let cars = [];
-  for (let carIndex = 0; carIndex < numOfCar; carIndex++) {
-    cars.push([
-      position[carIndex],
-      (target - position[carIndex]) / speed[carIndex],
-    ]);
-  }
-
-  cars.sort(([position1], [position2]) => position1 - position2);
-
-  let cur = 0;
-  let carFleet = 0;
-  for (let carIndex = numOfCar - 1; carIndex >= 0; carIndex--) {
-    const [_, time] = cars[carIndex];
-    if (time > cur) {
-      cur = time;
-      carFleet++;
+var carFleet = function (target, position, speed) {
+    const n = position.length;
+    let cars = []
+    for (let i = 0; i < n; i++) {
+        cars.push([position[i], (target - position[i]) / speed[i]])
     }
-  }
 
-  return carFleet;
-}
+    cars.sort((c1, c2) => c1[0] - c2[0]);
+
+    let fleet = 1;
+    let time = cars[n - 1];
+
+    for (let i = n - 2; i >= 0; i--) {
+        if (cars[i][1] > cars[i + 1][1]) {
+            fleet++;
+        }
+    }
+
+    return fleet;
+};
