@@ -23,29 +23,19 @@ function canLoad(weights, maxLoad, days) {
  * @param {number} days
  * @return {number}
  */
-function shipWithinDays(weights, days) {
-  let totalLoad = 0;
-  let maxLoad = 0;
+var shipWithinDays = function(weights, days) {
+    let maxWeight = 500;
+    let minWeight = Math.max(...weights);
 
-  for (let weight of weights) {
-    totalLoad += weight;
-    maxLoad = Math.max(maxLoad, weight);
-  }
+    while (minWeight < maxWeight) {
+        const midWeight = minWeight + Math.floor((maxWeight - minWeight) / 2);
 
-  maxLoad = Math.max(maxLoad, Math.ceil(totalLoad / days));
-
-  let l = maxLoad,
-    r = totalLoad;
-
-  while (l < r) {
-    const mid = l + Math.floor((r - l) / 2);
-
-    if (canLoad(weights, mid, days)) {
-      r = mid;
-    } else {
-      l = mid + 1;
+        if (canLoad(weights, midWeight, days)) {
+            maxWeight = midWeight;
+        } else {
+            minWeight = midWeight + 1;
+        }
     }
-  }
 
-  return l;
-}
+    return minWeight;
+};
