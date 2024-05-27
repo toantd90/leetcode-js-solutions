@@ -1,56 +1,52 @@
-function compareCount(count, curCount) {
-  return count.every((c, i) => c <= curCount[i]);
-}
+const getIndex = (c) => {
+  const charCode = c.charCodeAt(0);
 
+  if (charCode >= 97) return charCode - 97 + 26;
+
+  return charCode - 65;
+};
+
+const isValidSubstring = (cntS, cntT) =>
+  cntS.every((cnt, index) => cnt >= cntT[index]);
 /**
  * @param {string} s
  * @param {string} t
  * @return {string}
  */
-function minWindow(s, t) {
-  const m = s.length;
-  const n = t.length;
+const minWindow = (s, t) => {
+  if (t.length > s.length) return '';
 
-  if (t > m) return "";
+  let start = 0;
+  let end = 0;
 
-  let count = new Array(52).fill(0);
+  let cntT = new Array(52).fill(0);
 
-  for (let i = 0; i < n; i++) {
-    const charCode = t.charCodeAt(i);
-    if (charCode > 96) count[charCode - 97 + 26]++;
-    else count[charCode - 65]++;
+  for (let c of t) {
+    cntT[getIndex(c)]++;
   }
 
-  let l = 0;
-  let r = 0;
-  let curCount = new Array(52).fill(0);
-  let result = "";
+  let minimumSubstring = s.length + 1;
+  let ans = '';
 
-  while (r < m) {
-    while (r < m && !compareCount(count, curCount)) {
-      const curCharCode = s.charCodeAt(r);
-      if (curCharCode > 96) curCount[curCharCode - 97 + 26]++;
-      else curCount[curCharCode - 65]++;
-      r++;
-    }
+  let cntS = new Array(52).fill(0);
+  while (end < s.length && !isValidSubstring(cntS, cntT)) {
+    cntS[getIndex(s[end])]++;
 
-    while (compareCount(count, curCount)) {
-      let curResult = s.slice(l, r);
+    if (isValidSubstring(cntS, cntT)) {
+      while (isValidSubstring(cntS, cntT)) {
+        cntS[getIndex(s[start])]--;
 
-      if (result === "") {
-        result = curResult;
-      } else {
-        if (result.length > curResult.length) {
-          result = curResult;
-        }
+        start++;
       }
 
-      const curCharCode = s.charCodeAt(l);
-      if (curCharCode > 96) curCount[curCharCode - 97 + 26]--;
-      else curCount[curCharCode - 65]--;
-      l++;
+      if (end - start + 1 < minimumSubstring) {
+        minimumSubstring = end - start + 1;
+        ans = s.slice(start - 1, end + 1);
+      }
     }
+
+    end++;
   }
 
-  return result;
-}
+  return ans;
+};
