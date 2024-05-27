@@ -1,52 +1,28 @@
-const getIndex = (c) => {
-  const charCode = c.charCodeAt(0);
-
-  if (charCode >= 97) return charCode - 97 + 26;
-
-  return charCode - 65;
-};
-
-const isValidSubstring = (cntS, cntT) =>
-  cntS.every((cnt, index) => cnt >= cntT[index]);
-/**
- * @param {string} s
- * @param {string} t
- * @return {string}
- */
-const minWindow = (s, t) => {
-  if (t.length > s.length) return '';
-
-  let start = 0;
-  let end = 0;
-
-  let cntT = new Array(52).fill(0);
-
-  for (let c of t) {
-    cntT[getIndex(c)]++;
+function minWindow(s, t) {
+  const map = new Array(128).fill(0);
+  for (const c of t) {
+    map[c.charCodeAt(0)]++;
   }
+  let counter = t.length;
+  let begin = 0;
+  let end = 0;
+  let d = Number.MAX_SAFE_INTEGER;
+  let head = 0;
 
-  let minimumSubstring = s.length + 1;
-  let ans = '';
-
-  let cntS = new Array(52).fill(0);
-  while (end < s.length && !isValidSubstring(cntS, cntT)) {
-    cntS[getIndex(s[end])]++;
-
-    if (isValidSubstring(cntS, cntT)) {
-      while (isValidSubstring(cntS, cntT)) {
-        cntS[getIndex(s[start])]--;
-
-        start++;
-      }
-
-      if (end - start + 1 < minimumSubstring) {
-        minimumSubstring = end - start + 1;
-        ans = s.slice(start - 1, end + 1);
-      }
+  while (end < s.length) {
+    if (map[s.charCodeAt(end++)]-- > 0) {
+      counter--;
     }
 
-    end++;
+    while (counter === 0) {
+      if (end - begin < d) {
+        d = end - (head = begin);
+      }
+      if (map[s.charCodeAt(begin++)]++ === 0) {
+        counter++;
+      }
+    }
   }
 
-  return ans;
-};
+  return d === Number.MAX_SAFE_INTEGER ? '' : s.substr(head, d);
+}
