@@ -2,28 +2,21 @@
  * @param {string} s
  * @return {number}
  */
-const lengthOfLongestSubstring = s => {
-    if (!s.length) return 0
-    let l = 0
-    let r = 1
-    let curMap = {}
-    curMap[s[0]] = true
-    let cnt = 1
-    
-    
-    while (r < s.length) {
-      if (!curMap[s[r]]) {
-          curMap[s[r]] = true
-          cnt = Math.max(cnt, r - l + 1)
-          r++
-      } else {
-          while (s[l] !== s[r]) {
-              l++
-          }
-          delete curMap[s[r]]
-          l++
-      }
+var lengthOfLongestSubstring = function (s) {
+  let l = 0;
+  let r = 0;
+  let map = new Map();
+  let longest = 0;
+
+  while (r < s.length) {
+    while (map.get(s[r]) && map.get(s[r]) > 0) {
+      map.set(s[l], map.get(s[l]) - 1);
+      l++;
     }
-    
-    return cnt
+    map.set(s[r], (map.get(s[r]) || 0) + 1);
+    longest = Math.max(longest, r - l + 1);
+    r++;
+  }
+
+  return longest;
 };
