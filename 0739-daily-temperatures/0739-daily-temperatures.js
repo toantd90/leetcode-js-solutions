@@ -4,20 +4,21 @@
  */
 function dailyTemperatures(temperatures) {
     const n = temperatures.length;
-    let answer = new Array(n).fill(0);
-    let stack = [n - 1]
+    let stack = [n - 1];
+    let result = new Array(n).fill(0);
 
-    for (let i = n - 2; i >= 0; i--) {
+
+    for (let i = temperatures.length - 2; i >= 0; i--) {
         while (temperatures[i] >= temperatures[stack[stack.length - 1]]) {
             stack.pop();
         }
 
         if (stack.length) {
-            answer[i] = stack[stack.length - 1] - i;
+            result[i] = stack[stack.length - 1] - i;
         }
 
         stack.push(i);
     }
 
-    return answer;
+    return result;
 };
