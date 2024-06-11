@@ -4,13 +4,33 @@
  * @return {number[]}
  */
 var topKFrequent = function (nums, k) {
-    let count = {};
+    const n = nums.length;
+    let count = new Map();
 
     for (let num of nums) {
-        count[num] = (count[num] || 0) + 1;
+        if (!count.get(num)) {
+            count.set(num, 1);
+        } else {
+            count.set(num, count.get(num) + 1);
+        }
     }
 
-    const sortedByFrequent = Object.entries(count).sort(([key1, value1], [key2, value2]) => value2 - value1);
+    let bucket = new Array(n + 1).fill().map((_) => new Array());
+    
+    count.forEach((value, key) => {
+        bucket[value].push(key);
+    });
 
-    return sortedByFrequent.slice(0, k).map(([key, value]) => key);
+    let result = []
+    for (let i = n; i > 0; i--) {
+        if (bucket[i].length > 0) {
+            result.push(...bucket[i]);
+
+            if (result.length >= k) {
+                break;
+            }
+        }
+    }
+
+    return result;
 };
