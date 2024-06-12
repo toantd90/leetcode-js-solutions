@@ -2,20 +2,20 @@
  * @param {number[]} height
  * @return {number}
  */
-function maxArea(height) {
-  let l = 0;
-  let r = height.length - 1;
-  let maxWater = 0;
+var maxArea = function (height) {
+    let l = 0;
+    let r = height.length - 1;
+    let max = 0
 
-  while (l < r) {
-    if (height[r] > height[l]) {
-      maxWater = Math.max(maxWater, (r - l) * height[l]);
-      l++;
-    } else {
-      maxWater = Math.max(maxWater, (r - l) * height[r]);
-      r--;
+    while (l < r) {
+        if (height[l] < height[r]) {
+            max = Math.max(max, height[l] * (r - l));
+            l++;
+        } else {
+            max = Math.max(max, height[r] * (r - l));
+            r--;
+        }
     }
-  }
 
-  return maxWater;
-}
+    return max;
+};
