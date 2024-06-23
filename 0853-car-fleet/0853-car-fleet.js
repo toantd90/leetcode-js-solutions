@@ -5,23 +5,26 @@
  * @return {number}
  */
 var carFleet = function (target, position, speed) {
-  const n = position.length;
-  let positionAndTime = [];
-  for (let i = 0; i < n; i++) {
-    positionAndTime.push([position[i], (target - position[i]) / speed[i]]);
-  }
+    const n = position.length;
 
-  positionAndTime.sort((pt1, pt2) => pt1[0] - pt2[0]);
+    const positionAndTime = position.map((p, i) => ({ time: (target - p) / speed[i], position: p }));
 
-  let currentTime = positionAndTime[n - 1][1];
-  let fleet = 1;
+    console.log(positionAndTime);
 
-  for (let i = n - 2; i >= 0; i--) {
-    if (positionAndTime[i][1] > currentTime) {
-      currentTime = positionAndTime[i][1];
-      fleet++;
+    positionAndTime.sort((pt1, pt2) => pt1.position - pt2.position);
+
+
+
+    let fleet = 1;
+    let currentTime = positionAndTime[n - 1].time;
+
+    for (let i = n - 2; i >= 0; i--) {
+        const { time } = positionAndTime[i];
+        if (time > currentTime) {
+            fleet++;
+            currentTime = time;
+        }
     }
-  }
 
-  return fleet;
+    return fleet;
 };
