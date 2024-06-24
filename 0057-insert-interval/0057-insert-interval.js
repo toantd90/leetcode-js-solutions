@@ -4,21 +4,24 @@
  * @return {number[][]}
  */
 var insert = function (intervals, newInterval) {
-    let newIntervals = [];
-    let i = 0;
+    let newIntervals = []
+    let index = 0;
 
-    while (i < intervals.length && intervals[i][1] < newInterval[0]) {
-        newIntervals.push(intervals[i++]);
+    while (index < intervals.length && intervals[index][1] < newInterval[0]) {
+        newIntervals.push(intervals[index]);
+        index++;
     }
 
-    while (i < intervals.length && intervals[i][0] <= newInterval[1]) {
-        newInterval[0] = Math.min(intervals[i][0], newInterval[0]);
-        newInterval[1] = Math.max(intervals[i][1], newInterval[1]);
-        i++;
+    // intervals[index][1] >= newInterval[0]
+    while (index < intervals.length && intervals[index][0] <= newInterval[1]) {
+        newInterval[0] = Math.min(newInterval[0], intervals[index][0]);
+        newInterval[1] = Math.max(newInterval[1], intervals[index][1]);
+        index++;
     }
 
     newIntervals.push(newInterval);
-    newIntervals.push(...intervals.slice(i));
+
+    newIntervals.push(...intervals.slice(index));
 
     return newIntervals;
 };
