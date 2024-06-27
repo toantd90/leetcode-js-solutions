@@ -5,6 +5,7 @@
  */
 var insert = function (intervals, newInterval) {
     let newIntervals = []
+
     let index = 0;
 
     while (index < intervals.length && intervals[index][1] < newInterval[0]) {
@@ -13,6 +14,7 @@ var insert = function (intervals, newInterval) {
     }
 
     // intervals[index][1] >= newInterval[0]
+
     while (index < intervals.length && intervals[index][0] <= newInterval[1]) {
         newInterval[0] = Math.min(newInterval[0], intervals[index][0]);
         newInterval[1] = Math.max(newInterval[1], intervals[index][1]);
@@ -20,6 +22,8 @@ var insert = function (intervals, newInterval) {
     }
 
     newIntervals.push(newInterval);
+
+    // intervals[index][0] > newInterval[1]
 
     newIntervals.push(...intervals.slice(index));
 
