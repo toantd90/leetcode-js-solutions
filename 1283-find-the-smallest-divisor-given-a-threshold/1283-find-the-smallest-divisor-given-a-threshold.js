@@ -18,7 +18,7 @@ function isDivisor(nums, threshold, divisor) {
  */
 var smallestDivisor = function (nums, threshold) {
     let l = 1;
-    let r = Math.max(...nums);
+    let r = 1e6;
 
     while (l < r) {
         const mid = l + Math.floor((r - l) / 2);
