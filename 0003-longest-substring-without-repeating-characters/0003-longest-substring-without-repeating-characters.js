@@ -2,24 +2,22 @@
  * @param {string} s
  * @return {number}
  */
-function lengthOfLongestSubstring(s) {
+var lengthOfLongestSubstring = function (s) {
     let l = 0;
     let r = 0;
-    let count = {};
     let longest = 0;
+    let currentMap = {}
 
     while (r < s.length) {
-        while (count[s[r]] > 0) {
-            count[s[l]]--;
+        while (l < r && currentMap[s[r]]) {
+            currentMap[s[l]]--;
             l++;
         }
-        longest = Math.max(longest, r - l + 1);
-        count[s[r]] = (count[s[r]] || 0) + 1;
 
+        currentMap[s[r]] = (currentMap[s[r]] || 0) + 1;
+        longest = Math.max(longest, r - l + 1);
         r++;
     }
 
     return longest;
 };
-
-// keep open the window until there is a a duplicated character 
