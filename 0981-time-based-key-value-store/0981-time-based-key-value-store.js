@@ -1,6 +1,6 @@
 
 var TimeMap = function () {
-    this.timeMap = {};
+    this.map = {}
 };
 
 /** 
@@ -10,11 +10,11 @@ var TimeMap = function () {
  * @return {void}
  */
 TimeMap.prototype.set = function (key, value, timestamp) {
-    if (!this.timeMap[key]) {
-        this.timeMap[key] = [];
+    if (!this.map[key]) {
+        this.map[key] = [];
     }
 
-    this.timeMap[key].push([value, timestamp]);
+    this.map[key].push([value, timestamp]);
 };
 
 /** 
@@ -23,9 +23,9 @@ TimeMap.prototype.set = function (key, value, timestamp) {
  * @return {string}
  */
 TimeMap.prototype.get = function (key, timestamp) {
-    const values = this.timeMap[key];
-
-    return values ? this.getValueByTimeStamp(values, timestamp) : "";
+    const values = this.map[key];
+    if (!values) return ""
+    return this.getValueByTimeStamp(values, timestamp);
 };
 
 TimeMap.prototype.getValueByTimeStamp = function (values, timestamp) {
