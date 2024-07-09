@@ -1,31 +1,27 @@
-function canShip(weights, days, capacity) {
+function canShip(weights, days, shipCapacity) {
+    let day = 1;
     let currentWeight = 0;
-    let numOfDays = 1;
 
-    for (let i = 0; i < weights.length; i++) {
-        const weight = weights[i];
-        currentWeight += weight;
-        if (currentWeight > capacity) {
-            numOfDays++;
-            currentWeight = weight;
+    for (let w of weights) {
+        currentWeight += w;
 
-            if (numOfDays > days) {
-                break;
-            }
+        if (currentWeight > shipCapacity) {
+            day++;
+            currentWeight = w;
         }
     }
 
-    return numOfDays <= days;
-}
+    return day <= days;
+}   
 
 /**
  * @param {number[]} weights
  * @param {number} days
  * @return {number}
  */
-var shipWithinDays = function (weights, days) {
+var shipWithinDays = function(weights, days) {
     let l = Math.max(...weights);
-    let r = weights.reduce((accumulation, weight) => accumulation + weight, 0);
+    let r = weights.reduce((acc, weight) => acc + weight);
 
     while (l < r) {
         const mid = l + Math.floor((r - l) / 2);
@@ -37,5 +33,5 @@ var shipWithinDays = function (weights, days) {
         }
     }
 
-    return l
+    return l;
 };
