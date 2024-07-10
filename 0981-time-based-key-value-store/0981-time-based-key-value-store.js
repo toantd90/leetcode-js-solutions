@@ -1,6 +1,6 @@
 
 var TimeMap = function () {
-    this.map = {}
+    this.map = {};
 };
 
 /** 
@@ -24,9 +24,14 @@ TimeMap.prototype.set = function (key, value, timestamp) {
  */
 TimeMap.prototype.get = function (key, timestamp) {
     const values = this.map[key];
-    if (!values) return ""
+
+    if (!values) {
+        return "";
+    }
+
     return this.getValueByTimeStamp(values, timestamp);
 };
+
 
 TimeMap.prototype.getValueByTimeStamp = function (values, timestamp) {
     let l = 0;
@@ -43,7 +48,9 @@ TimeMap.prototype.getValueByTimeStamp = function (values, timestamp) {
     }
 
     return values[l - 1] ? values[l - 1][0] : "";
-};
+}
+
+
 
 /** 
  * Your TimeMap object will be instantiated and called as such:
