@@ -3,18 +3,16 @@
  * @param {number} k
  * @return {number[]}
  */
-function topKFrequent(nums, k) {
-    let countMap = new Map();
+var topKFrequent = function (nums, k) {
+  let countMap = {};
 
-    for (let num of nums) {
-        countMap.set(num, {
-            num,
-            frequent: (countMap.get(num)?.frequent || 0) + 1,
-        });
-    }
+  for (let num of nums) {
+    countMap[num] = (countMap[num] || 0) + 1;
+  }
 
-    return Array.from(countMap.values())
-        .sort((count1, count2) => count2.frequent - count1.frequent)
-        .slice(0, k)
-        .map((count) => count.num);
-}
+  const sortedFrequent = Object.entries(countMap)
+    .map(([key, value]) => [key, value])
+    .sort(([num1, count1], [num2, count2]) => count2 - count1);
+
+  return sortedFrequent.slice(0, k).map(([num]) => num);
+};
