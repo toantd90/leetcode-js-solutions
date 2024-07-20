@@ -1,20 +1,20 @@
-function canSplit(nums, k, sum) {
-    let i = 0;
-    let curSum = 0;
-    let numOfSubArr = 1;
+function canSplitArray(nums, k, sum) {
+    let currentSum = 0;
+    let numOfSubArrays = 1;
 
-    while (i < nums.length && numOfSubArr <= k) {
-        curSum += nums[i];
+    for (let i = 0; i < nums.length; i++) {
+        currentSum += nums[i];
+        if (currentSum > sum) {
+            currentSum = nums[i];
+            numOfSubArrays++;
 
-        if (curSum > sum) {
-            curSum = nums[i];
-            numOfSubArr++;
+            if (numOfSubArrays > k) {
+                return false;
+            }
         }
-
-        i++;
     }
 
-    return numOfSubArr <= k;
+    return numOfSubArrays <= k;
 }
 
 /**
@@ -23,17 +23,13 @@ function canSplit(nums, k, sum) {
  * @return {number}
  */
 var splitArray = function (nums, k) {
-    let l = 0;
-    let r = 0;
-    for (num of nums) {
-        l = Math.max(l, num);
-        r += num;
-    }
+    let l = Math.max(...nums);
+    let r = nums.reduce((accumulation, num) => accumulation + num, 0);
 
     while (l < r) {
         const mid = l + Math.floor((r - l) / 2);
 
-        if (canSplit(nums, k, mid)) {
+        if (canSplitArray(nums, k, mid)) {
             r = mid;
         } else {
             l = mid + 1;
