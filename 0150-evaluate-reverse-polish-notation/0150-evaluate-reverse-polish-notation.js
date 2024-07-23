@@ -24,7 +24,7 @@ var evalRPN = function (tokens) {
       const num2 = stack.pop();
       const num1 = stack.pop();
       const res = operators[token](num1, num2);
-      stack.push(Number(res));
+      stack.push(res);
     } else {
       stack.push(Number(token));
     }
