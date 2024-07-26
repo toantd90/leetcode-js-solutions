@@ -1,14 +1,14 @@
-function isDivisor(nums, threshold, divisor) {
-    let sumDivisor = 0;
-    for (let num of nums) {
-        sumDivisor += Math.ceil(num / divisor);
+function canDivide(nums, threshold, divisor) {
+    let sum = 0;
 
-        if (sumDivisor > threshold) {
+    for (let num of nums) {
+        sum += Math.ceil(num / divisor);
+        if (sum > threshold) {
             return false;
         }
     }
 
-    return sumDivisor <= threshold;
+    return true;
 }
 
 /**
@@ -18,17 +18,17 @@ function isDivisor(nums, threshold, divisor) {
  */
 var smallestDivisor = function (nums, threshold) {
     let l = 1;
-    let r = 1e6;
+    let r = Math.max(...nums);
 
     while (l < r) {
         const mid = l + Math.floor((r - l) / 2);
 
-        if (isDivisor(nums, threshold, mid)) {
+        if (canDivide(nums, threshold, mid)) {
             r = mid;
         } else {
             l = mid + 1;
         }
     }
 
-    return l
+    return l;
 };
