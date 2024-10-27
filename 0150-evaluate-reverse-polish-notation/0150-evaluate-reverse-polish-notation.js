@@ -1,19 +1,15 @@
-function isNum(str) {
-    return !['+', '-', '*', '/'].includes(str);
-}
+const OPERATORS = ['+', '-', '*', '/'];
 
 function calculate(num1, num2, operator) {
-    console.log(num1, num2, operator);
-    if (operator === '+') {
-        return num1 + num2;
-    } else if (operator === '-') {
-        return num1 - num2;
+    if (operator === '/') {
+        return Math.trunc(num2 / num1);
     } else if (operator === '*') {
         return num1 * num2;
+    } else if (operator === '+') {
+        return num1 + num2;
     } else {
-        return Math.trunc(num1 / num2);
+        return num2 - num1;
     }
-
 }
 
 /**
@@ -24,15 +20,12 @@ var evalRPN = function (tokens) {
     let stack = [];
 
     for (let token of tokens) {
-        if (isNum(token)) {
-            stack.push(Number(token));
+        if (OPERATORS.includes(token)) {
+            stack.push(calculate(stack.pop(), stack.pop(), token));
         } else {
-            const num2 = stack.pop();
-            stack.push(calculate(stack.pop(), num2, token));
+            stack.push(Number(token));
         }
-
-        console.log(stack);
     }
 
-    return stack[0];
+    return stack.pop();
 };
