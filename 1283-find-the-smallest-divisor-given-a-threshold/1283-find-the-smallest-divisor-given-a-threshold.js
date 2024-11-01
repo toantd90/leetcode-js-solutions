@@ -1,19 +1,16 @@
-function canDivide(nums, divisor, threshold) {
-    let sum = 0;
+function isSumDivisionGood(nums, divisor, threshold) {
+    let sumDivision = 0;
 
-    for (let i = 0; i < nums.length; i++) {
-        const num = nums[i];
+    for (let num of nums) {
+        sumDivision += Math.ceil(num / divisor);
 
-        sum += Math.ceil(num / divisor);
-
-        if (sum > threshold) {
+        if (sumDivision > threshold) {
             return false;
         }
     }
 
     return true;
 }
-
 
 /**
  * @param {number[]} nums
@@ -27,7 +24,7 @@ function smallestDivisor(nums, threshold) {
     while (l < r) {
         const mid = l + Math.floor((r - l) / 2);
 
-        if (canDivide(nums, mid, threshold)) {
+        if (isSumDivisionGood(nums, mid, threshold)) {
             r = mid;
         } else {
             l = mid + 1;
