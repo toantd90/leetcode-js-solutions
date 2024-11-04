@@ -4,28 +4,22 @@
  * @return {string}
  */
 const removeDuplicates = (s, k) => {
-   let stack = []
-   let stackCount = []
-   for (let i = 0; i < s.length; i++) {
-       const count = { ...stackCount[stackCount.length - 1] } || {}
-       if (stack.length >= k - 1) {
-           count[stack[stack.length - k]]--
-           count[s[i]] = (count[s[i]] || 0) + 1
-           
-           if (count[s[i]] === k) {
-               stack.length = stack.length - k + 1
-               stackCount.length = stackCount.length - k + 1
-           } else {
-               stack.push(s[i])
-               stackCount.push(count)
-           }
-       } else {
-           stack.push(s[i])
-           count[s[i]] = (count[s[i]] || 0) + 1
-           stackCount.push(count)
-       }
-       
-   }
-    
-   return stack.join('')
+  let stack = [];
+  let counts = [];
+  for (let c of s) {
+    if (!stack.length || stack[stack.length - 1] !== c) {
+      stack.push(c);
+      counts.push(1);
+    } else {
+      if (counts[counts.length - 1] === k - 1) {
+        counts.pop();
+        stack.length = stack.length - k + 1;
+      } else {
+        counts[counts.length - 1]++;
+        stack.push(c);
+      }
+    }
+  }
+
+  return stack.join("");
 };
