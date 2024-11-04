@@ -1,25 +1,41 @@
+function isThereKDuplicate(stack, k) {
+    let lastLetter = stack[stack.length - 1];
+    for (let i = stack.length - 2; i >= stack.length - k; i--) {
+        if (stack[i] !== lastLetter) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 /**
  * @param {string} s
  * @param {number} k
  * @return {string}
  */
-const removeDuplicates = (s, k) => {
-  let stack = [];
-  let counts = [];
-  for (let c of s) {
-    if (!stack.length || stack[stack.length - 1] !== c) {
-      stack.push(c);
-      counts.push(1);
-    } else {
-      if (counts[counts.length - 1] === k - 1) {
-        counts.pop();
-        stack.length = stack.length - k + 1;
-      } else {
-        counts[counts.length - 1]++;
-        stack.push(c);
-      }
+var removeDuplicates = function (s, k) {
+    let stack = [];
+    let count = [];
+    for (let letter of s) {
+        if (stack.length > 0 && stack[stack.length - 1] === letter) {
+            if (count[count.length - 1] === k - 1) {
+                stack.pop();
+                count.pop();
+            } else {
+                count[count.length - 1] += 1;
+            }
+        } else {
+            stack.push(letter);
+            count.push(1);
+        }
     }
-  }
 
-  return stack.join("");
+    let ans = '';
+
+    for (let i = 0; i < stack.length; i++) {
+        ans += stack[i].repeat(count[i]);
+    }
+
+    return ans;
 };
