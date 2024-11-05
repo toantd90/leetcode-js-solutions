@@ -7,7 +7,7 @@ const directions = [0, 1, 0, -1, 0]
 function dfs(grid, row, col, visited, area) {
     visited.add(`${row}-${col}`);
     grid[row][col] = 0;
-    area++
+    area++;
     for (let i = 0; i < 4; i++) {
         const nextRow = row + directions[i];
         const nextCol = col + directions[i + 1];
