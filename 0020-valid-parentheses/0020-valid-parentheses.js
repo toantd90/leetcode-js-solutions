@@ -1,23 +1,26 @@
+const closeBracketsMap = {
+    "}": "{",
+    "]": "[",
+    ")": "(",
+}
+
 /**
  * @param {string} s
  * @return {boolean}
  */
 function isValid(s) {
-  let stack = [];
+    let stack = [];
+    for (let c of s) {
+        if (closeBracketsMap[c]) {
+            const last = stack.pop();
 
-  for (let i = 0; i < s.length; i++) {
-    if (s[i] === "(" || s[i] === "[" || s[i] === "{") {
-      stack.push(s[i]);
-    } else if (s[i] === ")" && stack.pop() === "(") {
-      continue;
-    } else if (s[i] === "}" && stack.pop() === "{") {
-      continue;
-    } else if (s[i] === "]" && stack.pop() === "[") {
-      continue;
-    } else {
-      return false;
+            if (closeBracketsMap[c] !== last) {
+                return false;
+            }
+        } else {
+            stack.push(c);
+        }
     }
-  }
 
-  return stack.length === 0;
-}
+    return stack.length === 0;
+};
