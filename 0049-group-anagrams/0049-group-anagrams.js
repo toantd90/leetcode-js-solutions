@@ -2,18 +2,18 @@
  * @param {string[]} strs
  * @return {string[][]}
  */
-var groupAnagrams = function (strs) {
-    let map = {};
+function groupAnagrams(strs) {
+    let group = {};
 
     for (let str of strs) {
-        const sortedStr = str.split('').sort().join('');
-        if (!map[sortedStr]) {
-            map[sortedStr] = [];
+        const sortedStr = str.split('').sort();
+
+        if (!group[sortedStr]) {
+            group[sortedStr] = [];
         }
 
-        map[sortedStr].push(str);
+        group[sortedStr].push(str);
     }
 
-
-    return Object.values(map);
+    return Object.values(group);
 };
