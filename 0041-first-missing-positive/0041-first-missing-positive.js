@@ -12,8 +12,6 @@ var firstMissingPositive = function (nums) {
         }
     });
 
-    console.log(arr);
-
     for (let i = 1; i <= nums.length + 1; i++) {
         if (!arr[i]) {
             return i;
