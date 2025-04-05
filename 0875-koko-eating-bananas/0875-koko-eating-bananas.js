@@ -1,12 +1,13 @@
-function getEatHours(piles, k) {
-    return piles.reduce((accumulation, pile) => {
-        if (pile <= k) {
-            return accumulation + 1;
-        } else {
-            return accumulation + Math.ceil(pile / k)
-        }
-    }, 0);
+function canEat(piles, totalHour, eatingSpeed) {
+    let hour = 0;
+
+    for (let banana of piles) {
+        hour += Math.ceil(banana / eatingSpeed);
+    }
+
+    return hour <= totalHour;
 }
+
 
 /**
  * @param {number[]} piles
@@ -14,19 +15,21 @@ function getEatHours(piles, k) {
  * @return {number}
  */
 function minEatingSpeed(piles, h) {
-    let max = Math.max(...piles);
-    let min = 1;
+    const min = 1;
+    const max = Math.max(...piles);
 
-    while (min <= max) {
-        const mid = min + Math.floor((max - min) / 2);
-        const hours = getEatHours(piles, mid);
+    let l = min;
+    let r = max;
 
-        if (hours <= h) {
-            max = mid - 1;
+    while (l < r) {
+        const mid = l + Math.floor((r - l) / 2);
+
+        if (canEat(piles, h, mid)) {
+            r = mid;
         } else {
-            min = mid + 1;
+            l = mid + 1;
         }
     }
 
-    return min;
+    return l;
 };
