@@ -1,59 +1,57 @@
-function isInGrid(x, y, rows, cols) {
-    return x >= 0 && x < rows && y >= 0 && y < cols;
+function isInGrid(row, col, rows, cols) {
+    return row >= 0 && row < rows && col >= 0 && col < cols;
 }
 
 /**
  * @param {number[][]} grid
  * @return {number}
  */
-var orangesRotting = function (grid) {
+function orangesRotting(grid) {
     const m = grid.length;
     const n = grid[0].length;
+
     let rottenOranges = [];
-    let freshOrangesNumber = 0;
-    const directions = [0, -1, 0, 1, 0];
+    let freshOrangeCount = 0;
 
     for (let i = 0; i < m; i++) {
         for (let j = 0; j < n; j++) {
             if (grid[i][j] === 2) {
-                rottenOranges.push(`${i}-${j}`);
+                rottenOranges.push([i, j]);
             }
 
             if (grid[i][j] === 1) {
-                freshOrangesNumber++;
+                freshOrangeCount++;
             }
         }
     }
 
-    if (freshOrangesNumber === 0) return 0;
+    if (freshOrangeCount == 0) return 0;
+
+    const directions = [0, 1, 0, -1, 0];
 
     let minutes = 0;
 
-    while (rottenOranges.length > 0 && freshOrangesNumber > 0) {
+    while (rottenOranges.length > 0 && freshOrangeCount > 0) {
         const size = rottenOranges.length;
 
         for (let i = 0; i < size; i++) {
-            const [x, y] = rottenOranges[i].split('-').map(Number);
+            const [x, y] = rottenOranges[i];
 
-            for (j = 0; j < 4; j++) {
-                const addX = directions[j];
-                const addY = directions[j + 1];
+            for (let j = 0; j < 4; j++) {
+                const nextX = x + directions[j];
+                const nextY = y + directions[j + 1];
 
-                const newX = x + addX;
-                const newY = y + addY;
-
-                if (isInGrid(newX, newY, m, n) && grid[newX][newY] === 1) {
-                    grid[newX][newY] = 2;
-                    rottenOranges.push(`${newX}-${newY}`);
-                    freshOrangesNumber--;
+                if (isInGrid(nextX, nextY, m, n) && grid[nextX][nextY] == 1) {
+                    grid[nextX][nextY] = 2;
+                    rottenOranges.push([nextX, nextY]);
+                    freshOrangeCount--;
                 }
             }
-
         }
 
         rottenOranges.splice(0, size);
         minutes++;
     }
 
-    return freshOrangesNumber > 0 ? -1 : minutes;
+    return freshOrangeCount === 0 ? minutes : -1;
 };
