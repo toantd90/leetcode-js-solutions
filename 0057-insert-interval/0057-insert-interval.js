@@ -3,24 +3,31 @@
  * @param {number[]} newInterval
  * @return {number[][]}
  */
-var insert = function (intervals, newInterval) {
-  if (!intervals.length) return [newInterval];
+function insert(intervals, newInterval) {
+    let newIntervals = [];
 
-  let newIntervals = [];
-  let i = 0;
+    for (let i = 0; i < intervals.length; i++) {
+        if (newInterval[0] <= intervals[i][1]) {
+            break;
+        }
 
-  while (i < intervals.length && intervals[i][1] < newInterval[0]) {
-    newIntervals.push(intervals[i++]);
-  }
+        newIntervals.push(intervals[i]);
+    }
 
-  // intervals[i][1] >= newInterval[0]
-  while (i < intervals.length && intervals[i][0] <= newInterval[1]) {
-    newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
-    newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
-    i++;
-  }
-  newIntervals.push(newInterval);
-  newIntervals.push(...intervals.slice(i));
+    if (newIntervals.length === intervals.length) {
+        return [...newIntervals, newInterval];
+    }
 
-  return newIntervals;
+
+    let i = newIntervals.length;
+    let start = Math.min(newInterval[0], intervals[i][0]);
+    let end = newInterval[1];
+    while (i < intervals.length && newInterval[1] >= intervals[i][0]) {
+        end = Math.max(end, intervals[i][1]);
+        i++;
+    }
+
+    newIntervals.push([start, end]);
+    newIntervals.push(...intervals.slice(i));
+    return newIntervals;
 };
