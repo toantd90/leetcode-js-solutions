@@ -1,13 +1,15 @@
-function canEat(piles, totalHour, eatingSpeed) {
-    let hour = 0;
+function canEatInH(piles, speed, maxHour) {
+    let totalHour = 0;
+    for (let i = 0; i < piles.length; i++) {
+        totalHour += Math.ceil(piles[i] / speed);
 
-    for (let banana of piles) {
-        hour += Math.ceil(banana / eatingSpeed);
+        if (totalHour > maxHour) {
+            return false;
+        }
     }
 
-    return hour <= totalHour;
+    return true;
 }
-
 
 /**
  * @param {number[]} piles
@@ -15,19 +17,16 @@ function canEat(piles, totalHour, eatingSpeed) {
  * @return {number}
  */
 function minEatingSpeed(piles, h) {
-    const min = 1;
-    const max = Math.max(...piles);
-
-    let l = min;
-    let r = max;
+    let l = 1;
+    let r = Math.max(...piles);
 
     while (l < r) {
-        const mid = l + Math.floor((r - l) / 2);
+        const m = l + Math.floor((r - l) / 2);
 
-        if (canEat(piles, h, mid)) {
-            r = mid;
+        if (canEatInH(piles, m, h)) {
+            r = m;
         } else {
-            l = mid + 1;
+            l = m + 1;
         }
     }
 
