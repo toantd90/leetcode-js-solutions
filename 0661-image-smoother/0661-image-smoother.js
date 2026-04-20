@@ -1,59 +1,36 @@
-/**
- * @param {number[][]} img
- * @return {number[][]}
- */
 function imageSmoother(img) {
-    const rows = img.length;
-    const cols = img[0].length;
-    const smoothImg = new Array(rows).fill().map(() => new Array(cols).fill());
+  const rows = img.length;
+  const cols = img[0].length;
 
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols; j++) {
-            let sum = img[i][j];
-            let count = 1;
-            if (i > 0) {
-                sum += img[i - 1][j];
-                count++;
+  const res = Array.from({ length: rows }, () =>
+    Array(cols).fill(0)
+  );
 
-                if (j > 0) {
-                    sum += img[i - 1][j - 1];
-                    count++;
-                }
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      let sum = 0;
+      let count = 0;
 
-                if (j < cols - 1) {
-                    sum += img[i - 1][j + 1];
-                    count++;
-                }
-            }
+      for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
+          const ni = i + dx;
+          const nj = j + dy;
 
-            if (i < rows - 1) {
-                sum += img[i + 1][j];
-                count++;
-
-                if (j > 0) {
-                    sum += img[i + 1][j - 1];
-                    count++;
-                }
-
-                if (j < cols - 1) {
-                    sum += img[i + 1][j + 1];
-                    count++;
-                }
-            }
-
-            if (j > 0) {
-                sum += img[i][j - 1];
-                count++;
-            }
-
-            if (j < cols - 1) {
-                sum += img[i][j + 1];
-                count++;
-            }
-
-            smoothImg[i][j] = Math.floor(sum / count);
+          if (
+            ni >= 0 &&
+            ni < rows &&
+            nj >= 0 &&
+            nj < cols
+          ) {
+            sum += img[ni][nj];
+            count++;
+          }
         }
-    }
+      }
 
-    return smoothImg;
-};
+      res[i][j] = Math.floor(sum / count);
+    }
+  }
+
+  return res;
+}
