@@ -21,4 +21,20 @@ Collection of LeetCode questions to ace the coding interview! - Created using [L
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0733-flood-fill](https://github.com/toantd90/leetcode-js-solutions/tree/main/0733-flood-fill/) | Easy |
+## Hash Table
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0355-design-twitter](https://github.com/toantd90/leetcode-js-solutions/tree/main/0355-design-twitter/) | Medium |
+## Linked List
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0355-design-twitter](https://github.com/toantd90/leetcode-js-solutions/tree/main/0355-design-twitter/) | Medium |
+## Design
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0355-design-twitter](https://github.com/toantd90/leetcode-js-solutions/tree/main/0355-design-twitter/) | Medium |
+## Heap (Priority Queue)
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0355-design-twitter](https://github.com/toantd90/leetcode-js-solutions/tree/main/0355-design-twitter/) | Medium |
 <!---LeetCode Topics End-->
