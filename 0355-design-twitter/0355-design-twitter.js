@@ -79,10 +79,11 @@ Twitter.prototype.follow = function (followerId, followeeId) {
  * @return {void}
  */
 Twitter.prototype.unfollow = function (followerId, followeeId) {
-    const followeeSet = this.following.has(followerId) ? this.following.get(followerId) : new Set();
-    followeeSet.delete(followeeId);
+    if (!this.following.has(followerId)) {
+        return;
+    }
 
-    this.following.set(followerId, followeeSet);
+    this.following.get(followerId).delete(followeeId);
 };
 
 /** 
