@@ -1,7 +1,7 @@
 
 var Twitter = function () {
-    this.following = new Map();
-    this.tweets = new Map();
+    this.followeesByUser = new Map();
+    this.tweetsByUser = new Map();
     this.sequence = 0;
 };
 
@@ -12,9 +12,9 @@ var Twitter = function () {
  */
 Twitter.prototype.postTweet = function (userId, tweetId) {
     this.sequence++;
-    const currentTweets = this.tweets.has(userId) ? this.tweets.get(userId) : [];
-    currentTweets.push({ tweetId, sequence: this.sequence });
-    this.tweets.set(userId, currentTweets);
+    const userTweets = this.tweetsByUser.has(userId) ? this.tweetsByUser.get(userId) : [];
+    userTweets.push({ tweetId, sequence: this.sequence });
+    this.tweetsByUser.set(userId, userTweets);
 };
 
 /** 
@@ -22,39 +22,39 @@ Twitter.prototype.postTweet = function (userId, tweetId) {
  * @return {number[]}
  */
 Twitter.prototype.getNewsFeed = function (userId) {
-    let relevantUsers = [userId];
-    const followeeUsers = this.following.has(userId) ? Array.from(this.following.get(userId)) : [];
-    relevantUsers.push(...followeeUsers);
+    let sourceUserIds = [userId];
+    const followeeUsers = this.followeesByUser.has(userId) ? Array.from(this.followeesByUser.get(userId)) : [];
+    sourceUserIds.push(...followeeUsers);
 
-    let tweetsQueue = new MaxPriorityQueue(({ sequence }) => sequence);
-    for (const candidateUserId of relevantUsers) {
-        const userTweets = this.tweets.get(candidateUserId);
+    let tweetHeap = new MaxPriorityQueue(({ sequence }) => sequence);
+    for (const candidateUserId of sourceUserIds) {
+        const userTweets = this.tweetsByUser.get(candidateUserId);
 
         if (!userTweets) {
             continue;
         }
 
-        const mostRecentTweetIndexFromUser = userTweets.length - 1;
-        const { sequence, tweetId } = userTweets[mostRecentTweetIndexFromUser];
-        tweetsQueue.enqueue({ userId: candidateUserId, sequence, tweetId, mostRecentTweetIndexFromUser });
+        const tweetIndex = userTweets.length - 1;
+        const { sequence, tweetId } = userTweets[tweetIndex];
+        tweetHeap.enqueue({ userId: candidateUserId, sequence, tweetId, tweetIndex });
     }
 
     let result = [];
-    while (tweetsQueue.size() > 0 && result.length < 10) {
-        const { userId, tweetId, mostRecentTweetIndexFromUser } = tweetsQueue.dequeue();
+    while (tweetHeap.size() > 0 && result.length < 10) {
+        const { userId, tweetId, tweetIndex } = tweetHeap.dequeue();
 
         result.push(tweetId);
 
-        if (mostRecentTweetIndexFromUser > 0) {
-            const userTweets = this.tweets.get(userId);
+        if (tweetIndex > 0) {
+            const userTweets = this.tweetsByUser.get(userId);
 
             if (!userTweets) {
                 continue;
             }
 
-            const nextMostRecentTweetIndexFromUser = mostRecentTweetIndexFromUser - 1;
-            const { sequence, tweetId } = userTweets[nextMostRecentTweetIndexFromUser];
-            tweetsQueue.enqueue({ userId, sequence, tweetId, mostRecentTweetIndexFromUser: nextMostRecentTweetIndexFromUser });
+            const previousTweetIndex = tweetIndex - 1;
+            const { sequence, tweetId } = userTweets[previousTweetIndex];
+            tweetHeap.enqueue({ userId, sequence, tweetId, tweetIndex: previousTweetIndex });
         }
     }
 
@@ -67,10 +67,10 @@ Twitter.prototype.getNewsFeed = function (userId) {
  * @return {void}
  */
 Twitter.prototype.follow = function (followerId, followeeId) {
-    const followeeSet = this.following.has(followerId) ? this.following.get(followerId) : new Set();
+    const followeeSet = this.followeesByUser.has(followerId) ? this.followeesByUser.get(followerId) : new Set();
     followeeSet.add(followeeId);
 
-    this.following.set(followerId, followeeSet);
+    this.followeesByUser.set(followerId, followeeSet);
 };
 
 /** 
@@ -79,11 +79,11 @@ Twitter.prototype.follow = function (followerId, followeeId) {
  * @return {void}
  */
 Twitter.prototype.unfollow = function (followerId, followeeId) {
-    if (!this.following.has(followerId)) {
+    if (!this.followeesByUser.has(followerId)) {
         return;
     }
 
-    this.following.get(followerId).delete(followeeId);
+    this.followeesByUser.get(followerId).delete(followeeId);
 };
 
 /** 
