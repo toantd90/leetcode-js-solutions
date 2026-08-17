@@ -2,7 +2,7 @@
 var Twitter = function () {
     this.following = new Map();
     this.tweets = new Map();
-    this.internalTweetId = 0;
+    this.sequence = 0;
 };
 
 /** 
@@ -11,12 +11,10 @@ var Twitter = function () {
  * @return {void}
  */
 Twitter.prototype.postTweet = function (userId, tweetId) {
-    this.internalTweetId++;
-    if (!this.tweets[userId]) {
-        this.tweets[userId] = [];
-    }
-
-    this.tweets[userId].push({ tweetId, internalTweetId: this.internalTweetId });
+    this.sequence++;
+    const currentTweets = this.tweets.has(userId) ? this.tweets.get(userId) : [];
+    currentTweets.push({ tweetId, sequence: this.sequence });
+    this.tweets.set(userId, currentTweets);
 };
 
 /** 
@@ -25,20 +23,20 @@ Twitter.prototype.postTweet = function (userId, tweetId) {
  */
 Twitter.prototype.getNewsFeed = function (userId) {
     let relevantUsers = [userId];
-    const followeeUsers = Array.from(this.following[userId] || new Set());
+    const followeeUsers = this.following.has(userId) ? Array.from(this.following.get(userId)) : [];
     relevantUsers.push(...followeeUsers);
 
-    let tweetsQueue = new MaxPriorityQueue(({ internalTweetId }) => internalTweetId);
-    for (const userId of relevantUsers) {
-        const userTweets = this.tweets[userId];
+    let tweetsQueue = new MaxPriorityQueue(({ sequence }) => sequence);
+    for (const candidateUserId of relevantUsers) {
+        const userTweets = this.tweets.get(candidateUserId);
 
         if (!userTweets) {
             continue;
         }
 
         const mostRecentTweetIndexFromUser = userTweets.length - 1;
-        const { internalTweetId, tweetId } = userTweets[mostRecentTweetIndexFromUser];
-        tweetsQueue.enqueue({ userId, internalTweetId, tweetId, mostRecentTweetIndexFromUser });
+        const { sequence, tweetId } = userTweets[mostRecentTweetIndexFromUser];
+        tweetsQueue.enqueue({ userId: candidateUserId, sequence, tweetId, mostRecentTweetIndexFromUser });
     }
 
     let result = [];
@@ -48,15 +46,15 @@ Twitter.prototype.getNewsFeed = function (userId) {
         result.push(tweetId);
 
         if (mostRecentTweetIndexFromUser > 0) {
-            const userTweets = this.tweets[userId];
+            const userTweets = this.tweets.get(userId);
 
             if (!userTweets) {
                 continue;
             }
 
             const nextMostRecentTweetIndexFromUser = mostRecentTweetIndexFromUser - 1;
-            const { internalTweetId, tweetId } = userTweets[nextMostRecentTweetIndexFromUser];
-            tweetsQueue.enqueue({ userId, internalTweetId, tweetId, mostRecentTweetIndexFromUser: nextMostRecentTweetIndexFromUser });
+            const { sequence, tweetId } = userTweets[nextMostRecentTweetIndexFromUser];
+            tweetsQueue.enqueue({ userId, sequence, tweetId, mostRecentTweetIndexFromUser: nextMostRecentTweetIndexFromUser });
         }
     }
 
@@ -69,11 +67,10 @@ Twitter.prototype.getNewsFeed = function (userId) {
  * @return {void}
  */
 Twitter.prototype.follow = function (followerId, followeeId) {
-    if (!this.following[followerId]) {
-        this.following[followerId] = new Set();
-    }
+    const followeeSet = this.following.has(followerId) ? this.following.get(followerId) : new Set();
+    followeeSet.add(followeeId);
 
-    this.following[followerId].add(followeeId);
+    this.following.set(followerId, followeeSet);
 };
 
 /** 
@@ -82,11 +79,10 @@ Twitter.prototype.follow = function (followerId, followeeId) {
  * @return {void}
  */
 Twitter.prototype.unfollow = function (followerId, followeeId) {
-    if (!this.following[followerId]) {
-        return;
-    }
+    const followeeSet = this.following.has(followerId) ? this.following.get(followerId) : new Set();
+    followeeSet.delete(followeeId);
 
-    this.following[followerId].delete(followeeId);
+    this.following.set(followerId, followeeSet);
 };
 
 /** 
