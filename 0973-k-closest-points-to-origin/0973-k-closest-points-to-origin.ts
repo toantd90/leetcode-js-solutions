@@ -5,19 +5,21 @@ type Point = {
 }
 
 function kClosest(points: number[][], k: number): number[][] {
-    const transformedPoints = points.map(([x, y]) => ({ x, y, distance: x ** 2 + y ** 2 }));
-    const maxHeap = new MaxPriorityQueue<Point>(({ distance }: Point) => distance, transformedPoints.slice(0, k));
+    const maxHeap = new MaxPriorityQueue<Point>(
+        ({ distance }: Point) => distance,
+        points.slice(0, k).map(([x, y]) => ({ x, y, distance: x ** 2 + y ** 2 }))
+    );
 
-    for (let i = k; i < transformedPoints.length; i++) {
+    for (let i = k; i < points.length; i++) {
         const farthestPoint = maxHeap.front();
         const { distance: farthestDistance } = farthestPoint;
 
-        const currentPoint = transformedPoints[i];
-        const { distance: currentDistance } = currentPoint;
+        const [x, y] = points[i];
+        const currentDistance = x ** 2 + y ** 2;
 
         if (farthestDistance > currentDistance) {
             maxHeap.dequeue();
-            maxHeap.enqueue(currentPoint)
+            maxHeap.enqueue({ x, y, distance: currentDistance })
         }
     }
 
