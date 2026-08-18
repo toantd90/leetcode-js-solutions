@@ -5,11 +5,8 @@ type Point = {
 }
 
 function kClosest(points: number[][], k: number): number[][] {
-    const minHeap = new MinPriorityQueue<Point>(({ distance }: Point) => distance);
-
-    for (let point of points) {
-        minHeap.enqueue({ x: point[0], y: point[1], distance: point[0]**2 + point[1]**2 });
-    }
+    const transformedPoints = points.map(([x, y]) => ({ x, y, distance: x ** 2 + y ** 2 }));
+    const minHeap = new MinPriorityQueue<Point>(({ distance }: Point) => distance, transformedPoints);
 
     let result = [];
     for (let i = 0; i < k; i++) {
