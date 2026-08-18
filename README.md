@@ -8,6 +8,7 @@ Collection of LeetCode questions to ace the coding interview! - Created using [L
 | ------- | ------- |
 | [0661-image-smoother](https://github.com/toantd90/leetcode-js-solutions/tree/main/0661-image-smoother/) | Easy |
 | [0733-flood-fill](https://github.com/toantd90/leetcode-js-solutions/tree/main/0733-flood-fill/) | Easy |
+| [0973-k-closest-points-to-origin](https://github.com/toantd90/leetcode-js-solutions/tree/main/0973-k-closest-points-to-origin/) | Medium |
 ## Matrix
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -37,4 +38,29 @@ Collection of LeetCode questions to ace the coding interview! - Created using [L
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0355-design-twitter](https://github.com/toantd90/leetcode-js-solutions/tree/main/0355-design-twitter/) | Medium |
+| [0973-k-closest-points-to-origin](https://github.com/toantd90/leetcode-js-solutions/tree/main/0973-k-closest-points-to-origin/) | Medium |
+## Math
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0973-k-closest-points-to-origin](https://github.com/toantd90/leetcode-js-solutions/tree/main/0973-k-closest-points-to-origin/) | Medium |
+## Divide and Conquer
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0973-k-closest-points-to-origin](https://github.com/toantd90/leetcode-js-solutions/tree/main/0973-k-closest-points-to-origin/) | Medium |
+## Geometry
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0973-k-closest-points-to-origin](https://github.com/toantd90/leetcode-js-solutions/tree/main/0973-k-closest-points-to-origin/) | Medium |
+## Sorting
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0973-k-closest-points-to-origin](https://github.com/toantd90/leetcode-js-solutions/tree/main/0973-k-closest-points-to-origin/) | Medium |
+## Quickselect
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0973-k-closest-points-to-origin](https://github.com/toantd90/leetcode-js-solutions/tree/main/0973-k-closest-points-to-origin/) | Medium |
+## K-D Tree
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0973-k-closest-points-to-origin](https://github.com/toantd90/leetcode-js-solutions/tree/main/0973-k-closest-points-to-origin/) | Medium |
 <!---LeetCode Topics End-->
